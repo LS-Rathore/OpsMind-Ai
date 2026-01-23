@@ -3,9 +3,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/layout/ProtectedRoute';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import ChatPage from './pages/ChatPage';
+import LoginPage from './pages/Login';
+import SignupPage from './pages/Signup';
+import ChatPage from './pages/Chat';
 import AdminPage from './pages/AdminPage';
 
 // Create a client
