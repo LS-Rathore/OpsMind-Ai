@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+// import { useAuth } from '../../../contexts/AuthContext';
+import { useQueryClient } from '@tanstack/react-query';
 import { MessageSquare, Upload, LogOut, Menu, X, User, Plus, LayoutDashboard } from 'lucide-react';
 import clsx from 'clsx';
-import { chatService } from '../../services/chatService';
-import ConversationList from '../chat/ConversationList';
 
 export default function Layout() {
     // const { user, logout } = useAuth();
@@ -88,19 +86,7 @@ export default function Layout() {
                     <div className="mt-4 px-2">
                         {/* <div className="text-xs font-semibold text-gray-500 mb-2">Platform</div> */}
                         {/* {user?.role === 'admin' && ( */}
-                            <NavLink
-                                to="/admin"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className={({ isActive }) => clsx(
-                                    "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm mb-1",
-                                    isActive
-                                        ? "bg-[#212121] text-gray-100"
-                                        : "text-gray-300 hover:bg-[#212121]"
-                                )}
-                            >
-                                <LayoutDashboard size={18} />
-                                <span>Admin Dashboard</span>
-                            </NavLink>
+                            
                         {/* // )} */}
                         <NavLink
                             to="/"

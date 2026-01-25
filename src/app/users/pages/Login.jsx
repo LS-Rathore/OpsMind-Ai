@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import { useAuth } from '../contexts/AuthContext';
 import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import { ToastContainer, toast } from "react-toastify"
 import { Eye, EyeOff } from 'lucide-react';
@@ -13,11 +12,7 @@ export default function LoginPage() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    // const { login } = useAuth();
     const navigate = useNavigate();
-    // const location = useLocation();
-
-    // const from = location.state?.from?.pathname || '/';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,17 +25,19 @@ export default function LoginPage() {
 
         try {
             const res = await axios.post("http://localhost:3200/api/user/login", data)
-            console.log(res?.data?.role)
-            // navigate("/")
-
             if (res?.data?.role === "user") {
                 toast.success("Login Successfully!")
-                localStorage.setItem("token",res?.data?.token)
+                localStorage.setItem('token', res?.data?.token)
                 setTimeout(() => {
                     navigate("/")
-                }, 2000)
+                }, 1000)
             } else {
-                toast.error("Please enter valid credential!");
+                toast.success("Login Successfully!")
+                localStorage.setItem('admintoken', res?.data?.token)
+                setTimeout(() => {
+                    navigate("/admin/dashboard")
+                }, 1000)
+                // toast.error("Please enter valid credential!");
             }
         } catch (error) {
             if (error.response && error.response.data.message) {
@@ -51,14 +48,6 @@ export default function LoginPage() {
         } finally {
             setIsLoading(false);
         }
-        // try {
-        //     await login(email, password);
-        //     navigate(from, { replace: true });
-        // } catch (err) {
-        //     setError(err.response?.data?.message || 'Failed to sign in. Please check your credentials.');
-        // } finally {
-        //     setIsLoading(false);
-        // }
     };
 
     return (

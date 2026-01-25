@@ -1,5 +1,5 @@
-import DocumentUpload from '../components/admin/DocumentUpload';
-import DocumentList from '../components/admin/DocumentList';
+import DocumentUpload from '../../../components/admin/DocumentUpload';
+import DocumentList from '../../../components/admin/DocumentList';
 
 export default function AdminPage() {
     return (

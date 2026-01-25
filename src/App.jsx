@@ -1,45 +1,30 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './contexts/AuthContext';
-import Layout from './components/layout/Layout';
-import ProtectedRoute from './components/layout/ProtectedRoute';
-import LoginPage from './pages/Login';
-import SignupPage from './pages/Signup';
-import ChatPage from './pages/Chat';
-import AdminPage from './pages/AdminPage';
 
-// Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './app/router';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+    <BrowserRouter>
+    {/* <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+            <Route path="/signup" element={<PublicRoute><SignupPage /></PublicRoute>} />
 
-            {/* Public Routes with Layout */}
             <Route element={<Layout />}>
               <Route path="/" element={<ChatPage />} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             </Route>
 
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+            <Route element={<Layout />}>
               <Route
                 path="/admin"
                 element={
-                  <ProtectedRoute adminOnly>
+                  <AdminRoute>
                     <AdminPage />
-                  </ProtectedRoute>
+                  </AdminRoute>
                 }
               />
             </Route>
@@ -48,7 +33,10 @@ function App() {
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-    </QueryClientProvider>
+    </QueryClientProvider> */}
+    <AppRouter />
+    </BrowserRouter>
+    </>
   );
 }
 

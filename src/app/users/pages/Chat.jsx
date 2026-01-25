@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { chatService } from '../services/chatService';
-import { useAuth } from '../contexts/AuthContext';
-import { useGuestUsage } from '../hooks/useGuestUsage';
-import { useSSE } from '../hooks/useSSE';
+import { chatService } from '../../../services/chatService';
+import  {useAuth}  from '../../../contexts/AuthContext.jsx';
+import { useGuestUsage } from '../../../hooks/useGuestUsage';
+import { useSSE } from '../../../hooks/useSSE';
 import { Loader2 } from 'lucide-react';
 
-import ChatWindow from '../components/chat/ChatWindow';
-import ConversationList from '../components/chat/ConversationList';
-import MessageList from '../components/chat/MessageList';
-import InputBox from '../components/chat/InputBox';
-import PDFPreview from '../components/pdf/PDFPreview';
-import LoginModal from '../components/auth/LoginModal';
+import ChatWindow from '../../../components/chat/ChatWindow';
+import ConversationList from '../../../components/chat/ConversationList';
+import MessageList from '../../../components/chat/MessageList';
+import InputBox from '../../../components/chat/InputBox';
+import PDFPreview from '../../../components/pdf/PDFPreview';
+import LoginModal from '../../../components/auth/LoginModal';
 
 export default function ChatPage() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -190,7 +190,9 @@ export default function ChatPage() {
                     {!conversationId && messages.length === 0 ? (
                         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
                             <div className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center mb-6 shadow-sm">
-                                <span className="text-2xl font-bold">OM</span>
+                                {/* <span className="text-2xl font-bold">OM</span> */}
+                            <span className="text-3xl">⚡</span>
+
                             </div>
                             <h2 className="text-2xl font-bold text-gray-100 mb-2">OpsMind AI</h2>
                             <p className="text-gray-400 max-w-md mx-auto mb-2 font-medium">
