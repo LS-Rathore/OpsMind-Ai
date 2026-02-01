@@ -11,6 +11,7 @@ import AdminLayout from "./admin/layout/adminLayout"
 import Dashboard from "./admin/pages/Dashboard"
 import UsersList from './admin/pages/UsersList';
 import AdminProfile from './admin/pages/Profile';
+import AdminLogin from './admin/pages/Login';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -39,10 +40,10 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
-const AdminRoute = ({children}) => {
+const AdminRoute = ({ children }) => {
   const adminToken = localStorage.getItem("admintoken")
-  if(!adminToken){
-    return <Navigate to="/login" replace />;
+  if (!adminToken) {
+    return <Navigate to="/admin/login" replace />;
   }
   return children;
 }
@@ -55,6 +56,7 @@ const AppRouter = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
 
             <Route element={<Layout />}>
               <Route path="/" element={<Chat />} />
@@ -67,7 +69,7 @@ const AppRouter = () => {
                 path="/admin/dashboard"
                 element={
                   <AdminRoute>
-                  <Dashboard />
+                    <Dashboard />
                   </AdminRoute>
                 }
               />
@@ -75,7 +77,7 @@ const AppRouter = () => {
                 path="/admin/userslist"
                 element={
                   <AdminRoute>
-                  <UsersList />
+                    <UsersList />
                   </AdminRoute>
                 }
               />
@@ -83,7 +85,7 @@ const AppRouter = () => {
                 path="/admin/profile"
                 element={
                   <AdminRoute>
-                  <AdminProfile />
+                    <AdminProfile />
                   </AdminRoute>
                 }
               />

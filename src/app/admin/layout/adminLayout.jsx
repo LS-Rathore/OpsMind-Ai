@@ -13,7 +13,7 @@ export default function Layout() {
         if (token) {
             localStorage.removeItem('admintoken')
         }
-        navigate("/login")
+        navigate("/admin/login")
     }
 
     return (
@@ -91,7 +91,7 @@ export default function Layout() {
                 </div>
 
                 <div className="flex-1 overflow-hidden flex flex-col min-h-0">
-                 
+
                 </div>
                 <div className="p-3 border-t border-white/5 flex-shrink-0">
                     <NavLink
