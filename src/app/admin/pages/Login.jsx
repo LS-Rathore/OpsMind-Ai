@@ -22,16 +22,7 @@ export default function AdminLogin() {
             password: password
         };
 
-        // Mock Login Check for Admin
-        if (email === 'admin@opsmind.ai' && password === 'admin') {
-            toast.success("Admin Login Successful! (Mock)");
-            localStorage.setItem('admintoken', 'mock-admin-token');
-            setTimeout(() => {
-                navigate("/admin/dashboard");
-            }, 1000);
-            setIsLoading(false);
-            return;
-        }
+
 
         try {
             // Using the same endpoint as user login, assuming it handles admin logic/returns role
