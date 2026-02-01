@@ -63,7 +63,7 @@ export default function Layout() {
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={({ isActive }) => clsx(
                                         "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm",
-                                        isActive && !activeConversationId
+                                        isActive
                                             ? "bg-[#212121] text-gray-100"
                                             : "text-gray-300 hover:bg-[#212121]"
                                     )}
@@ -77,7 +77,7 @@ export default function Layout() {
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={({ isActive }) => clsx(
                                         "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm",
-                                        isActive && !activeConversationId
+                                        isActive
                                             ? "bg-[#212121] text-gray-100"
                                             : "text-gray-300 hover:bg-[#212121]"
                                     )}
