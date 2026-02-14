@@ -65,9 +65,9 @@ const Profile = () => {
           <div className="flex justify-between items-start mb-6">
             <div>
               <h2 className="text-2xl font-bold text-white mb-1">{user.fullname || user.name}</h2>
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              {/* <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
                 {user.role?.toUpperCase()}
-              </span>
+              </span> */}
             </div>
             <div className="text-sm text-slate-500">
               User ID: {user._id}
@@ -91,13 +91,13 @@ const Profile = () => {
               <div className="text-lg text-slate-200">{user.mobile || 'Not provided'}</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+            {/* <div className="p-4 rounded-xl bg-white/5 border border-white/5">
               <div className="flex items-center gap-3 mb-2 text-slate-400">
                 <Shield size={18} />
                 <span className="text-sm font-medium">Role Access</span>
               </div>
               <div className="text-lg text-slate-200 capitalize">{user.role}</div>
-            </div>
+            </div> */}
 
             <div className="p-4 rounded-xl bg-white/5 border border-white/5">
               <div className="flex items-center gap-3 mb-2 text-slate-400">

@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { adminService } from '../../../services/adminService';
 import { Loader2, AlertCircle, Search, User } from 'lucide-react';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const token = localStorage.getItem("admintoken")
 
   useEffect(() => {
     fetchUsers();
@@ -16,8 +18,14 @@ const UsersList = () => {
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
-      const data = await adminService.getAllUsers();
-      setUsers(data || []);
+      // const data = await adminService.getAllUsers();
+      const res = await axios.get("http://localhost:3200/api/admin/users",{
+        headers: {
+                Authorization: `Bearer ${token}`,
+            }
+      })
+      console.log(res?.data?.data)
+      setUsers(res?.data?.data || []);
     } catch (err) {
       console.error("Error fetching users:", err);
       setError("Failed to load users list.");
