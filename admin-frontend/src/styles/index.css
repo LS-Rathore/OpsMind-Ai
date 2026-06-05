@@ -1,0 +1,62 @@
+/* Admin Dashboard Styles */
+
+:root {
+  --color-deep-midnight: #0A0A0B;
+  --color-panel-bg: #121212;
+  --color-faded-steel: #1A1A1A;
+  --color-border-subtle: #222222;
+  --color-frost-white: #ffffff;
+  --color-muted-ash: #8B8D98;
+  --color-whisper-gray: #52525B;
+  --color-electric-blue: #2563eb;
+  --color-danger: #EF4444;
+  --color-success: #10B981;
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+}
+
+body {
+  background-color: var(--color-deep-midnight);
+  color: var(--color-frost-white);
+  font-family: var(--font-sans);
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+  margin: 0;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1f2228 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #1f2228;
+  border-radius: 3px;
+}
+
+@keyframes blink {
+  from, to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #ffffff;
+  margin-left: 2px;
+  animation: blink 0.8s step-end infinite;
+}
