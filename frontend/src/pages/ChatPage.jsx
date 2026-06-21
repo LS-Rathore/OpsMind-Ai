@@ -39,12 +39,33 @@ const ChatPage = () => {
           pdfUrl,
           filename: source.filename,
           pageNumber: source.pageNumber,
+          searchText: source.text,
         });
       } else {
         console.warn('Document not found for filename:', source.filename);
       }
     } catch (err) {
       console.error('Failed to open PDF viewer:', err);
+    }
+  };
+
+  const handleInlineCiteClick = async (filename, pageNumber, messageSources) => {
+    // Find the text snippet from the message's sources array for highlighting
+    const source = messageSources?.find(s => s.filename === filename && s.pageNumber === pageNumber);
+    
+    try {
+      const doc = await getDocumentByFilename(filename);
+      if (doc) {
+        const pdfUrl = getDocumentViewUrl(doc._id);
+        setPdfViewer({
+          pdfUrl,
+          filename,
+          pageNumber,
+          searchText: source?.text || '',
+        });
+      }
+    } catch (err) {
+      console.error('Failed to open inline citation:', err);
     }
   };
 
@@ -165,6 +186,7 @@ const ChatPage = () => {
                 isStreaming={msg.isStreaming}
                 feedback={msg.feedback}
                 onFeedback={handleFeedback}
+                onCiteClick={(filename, pageNum) => handleInlineCiteClick(filename, pageNum, msg.sources)}
               />
             ))}
             <div ref={messagesEndRef} />
@@ -187,6 +209,7 @@ const ChatPage = () => {
           pdfUrl={pdfViewer.pdfUrl}
           filename={pdfViewer.filename}
           pageNumber={pdfViewer.pageNumber}
+          searchText={pdfViewer.searchText}
           onClose={() => setPdfViewer(null)}
         />
       )}

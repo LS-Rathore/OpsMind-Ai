@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts';
 import * as adminService from '../services/adminService.js';
 
 const SystemHealthPage = () => {
@@ -257,12 +258,83 @@ const SystemHealthPage = () => {
           <div style={cardValueStyle}>{health?.mongodb?.collections || 0}</div>
         </div>
         
-        {/* Spanning Chart Placeholder */}
-        <div style={{ ...cardStyle, gridColumn: 'span 2', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '1px dashed #1f2228' }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-muted-ash)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '12px' }}>
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-          <div style={{ ...cardSubStyle, marginTop: 0 }}>Resource Allocation Map</div>
+        <div style={{ ...cardStyle, gridColumn: 'span 2', display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: 1 }}>
+            <div style={cardLabelStyle}>Resource Allocation Map</div>
+            <div style={{ fontFamily: 'var(--font-sans)', fontSize: '20px', fontWeight: '500', color: 'var(--color-frost-white)', marginBottom: '4px' }}>
+              Node.js Memory
+            </div>
+            <div style={cardSubStyle}>Live Heap & Resident Set Size</div>
+            
+            <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'Inter' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6' }} /> Heap Used
+                </div>
+                <div style={{ color: '#f8fafc', fontWeight: '500' }}>
+                  {formatBytes(health?.server?.memory?.heapUsed)}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'Inter' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#6366f1' }} /> Heap Free
+                </div>
+                <div style={{ color: '#f8fafc', fontWeight: '500' }}>
+                  {formatBytes(health?.server?.memory?.heapTotal - health?.server?.memory?.heapUsed)}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'Inter' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981' }} /> External / RSS
+                </div>
+                <div style={{ color: '#f8fafc', fontWeight: '500' }}>
+                  {formatBytes((health?.server?.memory?.rss || 0) - (health?.server?.memory?.heapTotal || 0))}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style={{ flex: 1, height: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={[
+                    { name: 'Heap Used', value: health?.server?.memory?.heapUsed || 1, color: '#3b82f6' },
+                    { name: 'Heap Free', value: (health?.server?.memory?.heapTotal || 2) - (health?.server?.memory?.heapUsed || 1), color: '#6366f1' },
+                    { name: 'External / RSS', value: Math.max((health?.server?.memory?.rss || 3) - (health?.server?.memory?.heapTotal || 2), 0), color: '#10b981' }
+                  ]}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={90}
+                  paddingAngle={5}
+                  dataKey="value"
+                  stroke="none"
+                >
+                  {[
+                    { name: 'Heap Used', value: health?.server?.memory?.heapUsed || 1, color: '#3b82f6' },
+                    { name: 'Heap Free', value: (health?.server?.memory?.heapTotal || 2) - (health?.server?.memory?.heapUsed || 1), color: '#6366f1' },
+                    { name: 'External / RSS', value: Math.max((health?.server?.memory?.rss || 3) - (health?.server?.memory?.heapTotal || 2), 0), color: '#10b981' }
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div style={{ backgroundColor: '#1f2228', border: '1px solid #333', padding: '12px', borderRadius: '8px', color: '#fff', fontFamily: 'Inter' }}>
+                          <span style={{ color: payload[0].payload.color, fontWeight: '600', marginRight: '8px' }}>{payload[0].name}</span>
+                          <span>{formatBytes(payload[0].value)}</span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }} 
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
       

@@ -183,6 +183,31 @@ router.get('/analytics', verifyToken, requireAdmin, async (req, res) => {
     const upvotes = feedbackAgg.find(f => f._id === 'up')?.count || 0;
     const downvotes = feedbackAgg.find(f => f._id === 'down')?.count || 0;
 
+    // Queries over time (Last 7 days)
+    const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+    const queriesOverTimeAgg = await Conversation.aggregate([
+      { $unwind: '$messages' },
+      { $match: { 'messages.role': 'user', 'messages.createdAt': { $gte: sevenDaysAgo } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$messages.createdAt' } },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    
+    // Ensure all 7 days have a data point even if 0
+    const queriesOverTime = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now - i * 24 * 60 * 60 * 1000);
+      const dateStr = d.toISOString().split('T')[0];
+      const found = queriesOverTimeAgg.find(item => item._id === dateStr);
+      // Format as "Mon 12" for prettier X axis
+      const displayDate = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
+      queriesOverTime.push({ date: displayDate, count: found ? found.count : 0 });
+    }
+
     res.json({
       totalQueries,
       monthlyActiveUsers,
@@ -193,6 +218,7 @@ router.get('/analytics', verifyToken, requireAdmin, async (req, res) => {
       downvotes,
       topQuestions,
       topDocuments,
+      queriesOverTime,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -395,6 +421,9 @@ router.get('/system-health', verifyToken, requireAdmin, async (req, res) => {
         uptimeSeconds: Math.round(uptimeSeconds),
         uptimeFormatted: `${Math.floor(uptimeSeconds / 3600)}h ${Math.floor((uptimeSeconds % 3600) / 60)}m`,
       },
+      server: {
+        memory: process.memoryUsage(),
+      }
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

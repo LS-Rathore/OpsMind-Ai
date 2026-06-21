@@ -15,7 +15,7 @@ export const streamChatResponse = async (query, chunks, res) => {
       .join('\n');
 
     const systemPrompt =
-      "You are OpsMind AI, an enterprise knowledge assistant. Answer questions ONLY using the provided SOP context. Always cite sources as: 'According to [filename], Page [pageNumber]'. If the answer is not in the context, respond with exactly: 'I couldn't find a direct answer to your question in the uploaded SOPs. Could you please rephrase your question, or ensure the relevant document has been uploaded?' Never fabricate or infer beyond the provided context.";
+      "You are OpsMind AI, an enterprise knowledge assistant. Answer questions ONLY using the provided SOP context. Always cite your sources precisely using this exact markdown link format: `[filename, Page N](cite:filename:N)`. Example: `[Employee_Handbook.pdf, Page 3](cite:Employee_Handbook.pdf:3)`. If the answer is not in the context, respond with exactly: 'I couldn't find a direct answer to your question in the uploaded SOPs. Could you please rephrase your question, or ensure the relevant document has been uploaded?' Never fabricate or infer beyond the provided context.";
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
@@ -39,7 +39,7 @@ export const streamChatResponse = async (query, chunks, res) => {
         sources: isHallucination ? [] : chunks.map((c) => ({
           filename: c.filename,
           pageNumber: c.pageNumber,
-          text: c.text.slice(0, 150),
+          text: c.text.replace(/\s+/g, ' ').trim().slice(0, 150),
         })),
       })}\n\n`
     );

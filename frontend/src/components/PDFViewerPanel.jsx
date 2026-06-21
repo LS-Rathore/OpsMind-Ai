@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, onClose }) => {
+const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) => {
   const [isCloseHovered, setIsCloseHovered] = useState(false);
   const [error, setError] = useState(null);
   const [blobUrl, setBlobUrl] = useState(null);
@@ -176,7 +176,18 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, onClose }) => {
     animation: 'spin 0.8s linear infinite',
   };
 
-  const fullUrl = blobUrl ? `${blobUrl}#page=${pageNumber}` : null;
+  // Build the URL with native PDF search parameter
+  let fullUrl = null;
+  if (blobUrl) {
+    fullUrl = `${blobUrl}#page=${pageNumber}`;
+    if (searchText) {
+      // Encode first ~40 chars to ensure it finds a robust match without breaking URL limits
+      const cleanSearch = searchText.substring(0, 40).replace(/\s+/g, ' ').trim();
+      if (cleanSearch) {
+        fullUrl += `&search=${encodeURIComponent(`"${cleanSearch}"`)}`;
+      }
+    }
+  }
 
   return (
     <div style={overlayStyle}>
