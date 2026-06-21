@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import Document from '../models/Document.js';
 import Chunk from '../models/Chunk.js';
 import AuditLog from '../models/AuditLog.js';
-import { parsePDFToChunks } from '../services/pdfParser.js';
+import { parseDocumentToChunks } from '../services/documentParser.js';
 import { embedChunks } from '../services/embedder.js';
 import { verifyToken, requireAdmin } from '../middleware/auth.js';
 
@@ -25,15 +25,21 @@ const router = Router();
 const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') {
+    const allowedMimeTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain',
+      'text/csv'
+    ];
+    if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Only PDF files are allowed'));
+      cb(new Error('Only PDF, DOCX, TXT, and CSV files are allowed'));
     }
   },
 });
 
-router.post('/upload', verifyToken, upload.single('pdf'), async (req, res) => {
+router.post('/upload', verifyToken, upload.single('document'), async (req, res) => {
   try {
     const file = req.file;
     const filename = `${uuidv4()}-${file.originalname}`;
@@ -54,7 +60,7 @@ router.post('/upload', verifyToken, upload.single('pdf'), async (req, res) => {
       status: 'processing',
     });
 
-    const chunks = await parsePDFToChunks(filePath, file.originalname);
+    const chunks = await parseDocumentToChunks(filePath, file.originalname);
     const embeddedChunks = await embedChunks(chunks);
 
     const chunkDocs = embeddedChunks.map((chunk) => ({
@@ -157,7 +163,7 @@ router.post('/:documentId/reindex', verifyToken, requireAdmin, async (req, res) 
       return res.status(400).json({ error: 'PDF file not found on disk. Cannot reindex. Please re-upload.' });
     }
 
-    const chunks = await parsePDFToChunks(doc.filePath, doc.originalName);
+    const chunks = await parseDocumentToChunks(doc.filePath, doc.originalName);
     const embeddedChunks = await embedChunks(chunks);
 
     const chunkDocs = embeddedChunks.map((chunk) => ({

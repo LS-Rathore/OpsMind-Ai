@@ -35,7 +35,7 @@ const SystemHealthPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '700',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
     marginBottom: '4px',
   };
@@ -43,7 +43,7 @@ const SystemHealthPage = () => {
   const subtitleStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
   };
@@ -52,7 +52,7 @@ const SystemHealthPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '18px',
     fontWeight: '500',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.015em',
     marginBottom: '20px',
     marginTop: '48px',
@@ -68,8 +68,8 @@ const SystemHealthPage = () => {
   };
 
   const cardStyle = {
-    backgroundColor: '#111213', // Slightly lighter than base for the cards
-    border: '1px solid #1a1c1e', // Very subtle border
+    backgroundColor: 'var(--bg-tertiary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '4px',
     padding: '20px 24px',
     position: 'relative',
@@ -78,7 +78,7 @@ const SystemHealthPage = () => {
   const cardLabelStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '10px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     marginBottom: '16px',
@@ -91,14 +91,14 @@ const SystemHealthPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '28px',
     fontWeight: '500',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.02em',
   };
 
   const cardSubStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '10px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     marginTop: '8px',
     letterSpacing: '0.05em',
     textTransform: 'uppercase',
@@ -109,13 +109,13 @@ const SystemHealthPage = () => {
     width: '8px',
     height: '8px',
     borderRadius: '50%',
-    backgroundColor: 'var(--color-electric-blue)',
+    backgroundColor: 'var(--color-accent)',
   };
 
   const refreshBtnStyle = {
     backgroundColor: 'transparent',
-    color: isRefreshHovered ? 'var(--color-frost-white)' : 'var(--color-muted-ash)',
-    border: '1px solid var(--color-border-subtle)',
+    color: isRefreshHovered ? 'var(--text-primary)' : 'var(--text-muted)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '999px',
     padding: '8px 16px',
     fontSize: '10px',
@@ -130,7 +130,7 @@ const SystemHealthPage = () => {
   };
 
   if (loading && !health) {
-    return <div style={{ color: 'var(--color-muted-ash)', fontFamily: 'var(--font-sans)', fontSize: '16px', padding: '60px 0' }}>Loading system health...</div>;
+    return <div style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontSize: '16px', padding: '60px 0' }}>Loading system health...</div>;
   }
 
   return (
@@ -155,7 +155,7 @@ const SystemHealthPage = () => {
           </button>
           
           {/* Settings Icon */}
-          <button style={{ background: 'none', border: 'none', color: 'var(--color-muted-ash)', cursor: 'pointer' }}>
+          <button style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -163,8 +163,8 @@ const SystemHealthPage = () => {
           </button>
           
           {/* Mock Profile Icon block */}
-          <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#1a1c1e', border: '1px solid #2a2c2e', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d8187" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+          <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-medium)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" color="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
           </div>
         </div>
       </div>
@@ -176,7 +176,7 @@ const SystemHealthPage = () => {
       <div style={gridStyle4}>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Status</div>
-          <div style={{ ...cardValueStyle, fontSize: '24px', color: health?.api?.status === 'healthy' ? 'var(--color-frost-white)' : 'var(--color-danger)' }}>
+          <div style={{ ...cardValueStyle, fontSize: '24px', color: health?.api?.status === 'healthy' ? 'var(--text-primary)' : 'var(--color-danger)' }}>
             {(health?.api?.status || 'Unknown').toUpperCase()}
           </div>
         </div>
@@ -200,7 +200,7 @@ const SystemHealthPage = () => {
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Avg Response Time</div>
-          <div style={cardValueStyle}>{health?.ai?.avgResponseTimeMs || 0}<span style={{ fontSize: '12px', color: 'var(--color-muted-ash)', marginLeft: '4px' }}>MS</span></div>
+          <div style={cardValueStyle}>{health?.ai?.avgResponseTimeMs || 0}<span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }}>MS</span></div>
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Total Responses</div>
@@ -213,10 +213,10 @@ const SystemHealthPage = () => {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
             )}
           </div>
-          <div style={{ ...cardValueStyle, color: (health?.ai?.hallucinationCount || 0) > 0 ? 'var(--color-danger)' : 'var(--color-frost-white)' }}>
+          <div style={{ ...cardValueStyle, color: (health?.ai?.hallucinationCount || 0) > 0 ? 'var(--color-danger)' : 'var(--text-primary)' }}>
             {health?.ai?.hallucinationCount || 0}
           </div>
-          <div style={{ ...cardSubStyle, color: (health?.ai?.hallucinationCount || 0) > 0 ? 'var(--color-danger)' : 'var(--color-muted-ash)' }}>
+          <div style={{ ...cardSubStyle, color: (health?.ai?.hallucinationCount || 0) > 0 ? 'var(--color-danger)' : 'var(--text-muted)' }}>
             {health?.ai?.totalResponses > 0
               ? `${((health.ai.hallucinationCount / health.ai.totalResponses) * 100).toFixed(1)}% rate`
               : '0.0% rate'}
@@ -238,11 +238,11 @@ const SystemHealthPage = () => {
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Database Size</div>
-          <div style={cardValueStyle}>{(health?.mongodb?.databaseSize ? (health.mongodb.databaseSize / 1024 / 1024).toFixed(1) : 0)}<span style={{ fontSize: '12px', color: 'var(--color-muted-ash)', marginLeft: '4px' }}>MB</span></div>
+          <div style={cardValueStyle}>{(health?.mongodb?.databaseSize ? (health.mongodb.databaseSize / 1024 / 1024).toFixed(1) : 0)}<span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }}>MB</span></div>
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Storage Size</div>
-          <div style={cardValueStyle}>{(health?.mongodb?.storageSize ? (health.mongodb.storageSize / 1024 / 1024).toFixed(1) : 0)}<span style={{ fontSize: '12px', color: 'var(--color-muted-ash)', marginLeft: '4px' }}>MB</span></div>
+          <div style={cardValueStyle}>{(health?.mongodb?.storageSize ? (health.mongodb.storageSize / 1024 / 1024).toFixed(1) : 0)}<span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }}>MB</span></div>
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Documents</div>
@@ -268,26 +268,26 @@ const SystemHealthPage = () => {
             
             <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'Inter' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6' }} /> Heap Used
                 </div>
-                <div style={{ color: '#f8fafc', fontWeight: '500' }}>
+                <div style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
                   {formatBytes(health?.server?.memory?.heapUsed)}
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'Inter' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#6366f1' }} /> Heap Free
                 </div>
-                <div style={{ color: '#f8fafc', fontWeight: '500' }}>
+                <div style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
                   {formatBytes(health?.server?.memory?.heapTotal - health?.server?.memory?.heapUsed)}
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'Inter' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981' }} /> External / RSS
                 </div>
-                <div style={{ color: '#f8fafc', fontWeight: '500' }}>
+                <div style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
                   {formatBytes((health?.server?.memory?.rss || 0) - (health?.server?.memory?.heapTotal || 0))}
                 </div>
               </div>
@@ -323,7 +323,7 @@ const SystemHealthPage = () => {
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
-                        <div style={{ backgroundColor: '#1f2228', border: '1px solid #333', padding: '12px', borderRadius: '8px', color: '#fff', fontFamily: 'Inter' }}>
+                        <div style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-medium)', padding: '12px', borderRadius: '8px', color: 'var(--text-primary)', fontFamily: 'Inter' }}>
                           <span style={{ color: payload[0].payload.color, fontWeight: '600', marginRight: '8px' }}>{payload[0].name}</span>
                           <span>{formatBytes(payload[0].value)}</span>
                         </div>
@@ -341,15 +341,15 @@ const SystemHealthPage = () => {
       {/* Bottom Status Bar */}
       <div style={{ 
         position: 'fixed', bottom: 0, left: '240px', right: 0, 
-        padding: '12px 48px', borderTop: '1px solid var(--color-border-subtle)', 
-        backgroundColor: 'var(--color-deep-midnight)', display: 'flex', 
+        padding: '12px 48px', borderTop: '1px solid var(--border-subtle)', 
+        backgroundColor: 'var(--bg-primary)', display: 'flex', 
         justifyContent: 'space-between', fontFamily: 'var(--font-mono)', 
-        fontSize: '9px', color: 'var(--color-muted-ash)', textTransform: 'uppercase', letterSpacing: '0.05em'
+        fontSize: '9px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em'
       }}>
-        <div>System Cluster: <span style={{ color: 'var(--color-frost-white)' }}>OPS-US-EAST-1</span> &nbsp;&nbsp; Load: <span style={{ color: 'var(--color-frost-white)' }}>0.42</span></div>
+        <div>System Cluster: <span style={{ color: 'var(--text-primary)' }}>OPS-US-EAST-1</span> &nbsp;&nbsp; Load: <span style={{ color: 'var(--text-primary)' }}>0.42</span></div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span>Last Sync: {lastRefresh ? lastRefresh.toISOString().replace('T', ' ').substring(0, 19) + ' UTC' : 'Pending...'}</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-frost-white)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-primary)' }}>
             <span style={statusDotStyle} /> CONNECTED
           </span>
         </div>

@@ -12,8 +12,15 @@ const DocumentUpload = ({ onUploadSuccess }) => {
   const handleFile = async (file) => {
     if (!file) return;
 
-    if (file.type !== 'application/pdf') {
-      setError('Only PDF files are allowed');
+    const validTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain',
+      'text/csv'
+    ];
+
+    if (!validTypes.includes(file.type) && !file.name.endsWith('.docx') && !file.name.endsWith('.csv')) {
+      setError('Only PDF, DOCX, TXT, and CSV files are allowed');
       setSuccessMessage('');
       return;
     }
@@ -70,18 +77,18 @@ const DocumentUpload = ({ onUploadSuccess }) => {
   };
 
   const dropZoneStyle = {
-    border: isDragging ? '1px dashed #6366f1' : '1px dashed rgba(255, 255, 255, 0.1)',
+    border: isDragging ? '1px dashed var(--color-accent-light)' : '1px dashed var(--border-medium)',
     borderRadius: '12px',
     padding: '48px 24px',
     textAlign: 'center',
-    background: isDragging ? 'rgba(99, 102, 241, 0.05)' : '#16161a',
+    background: isDragging ? 'var(--color-accent-bg)' : 'var(--bg-tertiary)',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     position: 'relative',
   };
 
   const iconStyle = {
-    color: '#a1a1aa',
+    color: 'var(--text-muted)',
     width: '32px',
     height: '32px',
     marginBottom: '16px',
@@ -91,7 +98,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
   const primaryTextStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '14px',
-    color: '#e4e4e7',
+    color: 'var(--text-secondary)',
     fontWeight: '500',
     marginBottom: '8px',
   };
@@ -99,11 +106,11 @@ const DocumentUpload = ({ onUploadSuccess }) => {
   const subTextStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '12px',
-    color: '#71717a',
+    color: 'var(--text-faint)',
   };
 
   const progressBgStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'var(--border-medium)',
     height: '4px',
     width: '100%',
     marginTop: '16px',
@@ -113,7 +120,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
   };
 
   const progressFillStyle = {
-    backgroundColor: '#6366f1',
+    backgroundColor: 'var(--color-accent)',
     height: '100%',
     width: `${progress}%`,
     transition: 'width 0.1s linear',
@@ -122,7 +129,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
   const statusTextStyle = (isError) => ({
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '14px',
-    color: isError ? '#7d8187' : '#ffffff',
+    color: isError ? 'var(--text-muted)' : 'var(--text-primary)',
     marginTop: '12px',
   });
 
@@ -139,7 +146,7 @@ const DocumentUpload = ({ onUploadSuccess }) => {
           type="file"
           ref={fileInputRef}
           onChange={onFileChange}
-          accept=".pdf"
+          accept=".pdf,.docx,.txt,.csv"
           style={{ display: 'none' }}
         />
         <svg
@@ -156,8 +163,8 @@ const DocumentUpload = ({ onUploadSuccess }) => {
             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
           />
         </svg>
-        <div style={primaryTextStyle}>Drop SOP PDF here or <span style={{ color: '#6366f1', cursor: 'pointer' }}>click to browse</span></div>
-        <div style={subTextStyle}>PDF only &bull; Max 10MB</div>
+        <div style={primaryTextStyle}>Drop Document here or <span style={{ color: 'var(--color-accent-light)', cursor: 'pointer' }}>click to browse</span></div>
+        <div style={subTextStyle}>PDF, DOCX, TXT, CSV &bull; Max 10MB</div>
 
         {isUploading && (
           <div style={progressBgStyle}>

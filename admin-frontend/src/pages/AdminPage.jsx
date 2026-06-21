@@ -28,7 +28,7 @@ const AdminPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '700',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
     marginBottom: '4px',
   };
@@ -36,7 +36,7 @@ const AdminPage = () => {
   const subtitleStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
     marginBottom: '32px',
@@ -50,8 +50,8 @@ const AdminPage = () => {
   };
 
   const cardStyle = {
-    backgroundColor: 'var(--color-panel-bg)',
-    border: '1px solid var(--color-border-subtle)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '4px',
     padding: '24px',
   };
@@ -59,7 +59,7 @@ const AdminPage = () => {
   const cardLabelStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '11px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     marginBottom: '16px',
@@ -69,14 +69,14 @@ const AdminPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '600',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
   };
 
   const cardSubStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '10px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.05em',
     textTransform: 'uppercase',
     marginTop: '8px',
@@ -86,7 +86,7 @@ const AdminPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '18px',
     fontWeight: '600',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.015em',
     marginBottom: '20px',
     display: 'flex',
@@ -104,7 +104,7 @@ const AdminPage = () => {
 
   if (loading) {
     return (
-      <div style={{ color: '#7d8187', fontFamily: 'Inter', fontSize: '16px', padding: '60px 0' }}>
+      <div style={{ color: 'var(--text-muted)', fontFamily: 'Inter', fontSize: '16px', padding: '60px 0' }}>
         Loading dashboard...
       </div>
     );
@@ -152,11 +152,11 @@ const AdminPage = () => {
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Total Upvotes</div>
-          <div style={{ ...cardValueStyle, color: '#4af2a1' }}>{analytics?.upvotes || 0}</div>
+          <div style={{ ...cardValueStyle, color: 'var(--color-success)' }}>{analytics?.upvotes || 0}</div>
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Total Downvotes</div>
-          <div style={{ ...cardValueStyle, color: '#ff4d4f' }}>{analytics?.downvotes || 0}</div>
+          <div style={{ ...cardValueStyle, color: 'var(--color-danger)' }}>{analytics?.downvotes || 0}</div>
         </div>
       </div>
 
@@ -167,7 +167,7 @@ const AdminPage = () => {
       <div style={gridStyle}>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>API Status</div>
-          <div style={{ ...cardValueStyle, fontSize: '18px', color: '#4af2a1' }}>
+          <div style={{ ...cardValueStyle, fontSize: '18px', color: 'var(--color-success)' }}>
             {health?.api?.status || 'unknown'}
           </div>
           <div style={cardSubStyle}>Uptime: {health?.api?.uptimeFormatted || '—'}</div>
@@ -189,7 +189,7 @@ const AdminPage = () => {
         </div>
         <div style={cardStyle}>
           <div style={cardLabelStyle}>Hallucinations</div>
-          <div style={{ ...cardValueStyle, fontSize: '18px', color: (health?.ai?.hallucinationCount || 0) > 0 ? '#ff4d4f' : '#4af2a1' }}>
+          <div style={{ ...cardValueStyle, fontSize: '18px', color: (health?.ai?.hallucinationCount || 0) > 0 ? 'var(--color-danger)' : 'var(--color-success)' }}>
             {health?.ai?.hallucinationCount || 0}
           </div>
           <div style={cardSubStyle}>of {health?.ai?.totalResponses || 0} responses</div>

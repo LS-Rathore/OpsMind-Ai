@@ -17,9 +17,9 @@ const MessageBubble = ({ id, role, content, sources, isStreaming, feedback, onFe
 
   const bubbleStyle = isUser
     ? {
-      backgroundColor: '#1f2228',
-      border: '1px solid rgba(255, 255, 255, 0.05)',
-      color: '#f8fafc',
+      backgroundColor: 'var(--bg-tertiary)',
+      border: '1px solid var(--border-subtle)',
+      color: 'var(--text-primary)',
       maxWidth: '70%',
       borderRadius: '16px',
       padding: '12px 18px',
@@ -32,7 +32,7 @@ const MessageBubble = ({ id, role, content, sources, isStreaming, feedback, onFe
       overflowWrap: 'break-word',
     }
     : {
-      color: '#e2e8f0',
+      color: 'var(--text-secondary)',
       width: '100%',
       fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
       fontSize: '15px',
@@ -46,7 +46,7 @@ const MessageBubble = ({ id, role, content, sources, isStreaming, feedback, onFe
   const timestampStyle = {
     fontFamily: "'Space Mono', ui-monospace, monospace",
     fontSize: '11px',
-    color: '#64748b',
+    color: 'var(--text-faint)',
     letterSpacing: '0.05em',
     marginTop: '12px',
     display: 'flex',
@@ -59,7 +59,7 @@ const MessageBubble = ({ id, role, content, sources, isStreaming, feedback, onFe
     border: 'none',
     padding: '4px',
     cursor: 'pointer',
-    color: isActive ? (type === 'up' ? '#10b981' : '#ef4444') : '#64748b',
+    color: isActive ? (type === 'up' ? 'var(--color-success)' : 'var(--color-danger)') : 'var(--text-faint)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

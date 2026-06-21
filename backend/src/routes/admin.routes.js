@@ -430,4 +430,70 @@ router.get('/system-health', verifyToken, requireAdmin, async (req, res) => {
   }
 });
 
+// ─── USER PROFILE (Admin View) ──────────────────────────────────
+
+router.get('/users/:id/profile', verifyToken, requireAdmin, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).select('-password');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Aggregate usage stats
+    const statsAgg = await Conversation.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+      { $unwind: '$messages' },
+      {
+        $group: {
+          _id: null,
+          totalQueries: { $sum: { $cond: [{ $eq: ['$messages.role', 'user'] }, 1, 0] } },
+          totalTokens: { $sum: { $ifNull: ['$messages.tokenCount', 0] } },
+          totalConversations: { $addToSet: '$_id' },
+        },
+      },
+      {
+        $project: {
+          totalQueries: 1,
+          totalTokens: 1,
+          totalConversations: { $size: '$totalConversations' },
+        },
+      },
+    ]);
+
+    const stats = statsAgg[0] || { totalQueries: 0, totalTokens: 0, totalConversations: 0 };
+
+    // Recent conversations
+    const recentConversations = await Conversation.find({ userId })
+      .sort({ updatedAt: -1 })
+      .limit(5)
+      .lean();
+
+    const enrichedConversations = recentConversations.map((c) => ({
+      _id: c._id,
+      title: c.title,
+      messageCount: c.messages?.length || 0,
+      hasHallucination: c.messages?.some((m) => m.isHallucination) || false,
+      updatedAt: c.updatedAt,
+      createdAt: c.createdAt,
+    }));
+
+    // Recent audit logs
+    const recentAuditLogs = await AuditLog.find({
+      $or: [{ userId }, { targetId: userId }],
+    })
+      .populate('userId', 'name email')
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .lean();
+
+    res.json({
+      user,
+      stats,
+      recentConversations: enrichedConversations,
+      recentAuditLogs,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;

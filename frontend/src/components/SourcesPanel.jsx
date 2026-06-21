@@ -7,7 +7,7 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
 
   const containerStyle = {
     background: 'transparent',
-    borderTop: '1px solid #1f2228',
+    borderTop: '1px solid var(--border-medium)',
     paddingTop: '12px',
     marginTop: '8px',
     position: 'relative',
@@ -16,7 +16,7 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
   const titleStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '11px',
-    color: '#94a3b8',
+    color: 'var(--text-faint)',
     letterSpacing: '0.05em',
     textTransform: 'uppercase',
     fontWeight: '600',
@@ -37,8 +37,8 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
   };
 
   const cardStyle = (isHovered) => ({
-    background: isHovered ? '#1a1d24' : '#121212',
-    border: '1px solid rgba(255, 255, 255, 0.05)',
+    background: isHovered ? 'var(--border-subtle)' : 'var(--bg-secondary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '8px',
     padding: '12px 16px',
     minWidth: '220px',
@@ -53,7 +53,7 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
   });
 
   const filenameStyle = {
-    color: '#f8fafc',
+    color: 'var(--text-primary)',
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
     fontWeight: '600',
@@ -64,7 +64,7 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
   };
 
   const pageStyle = {
-    color: '#94a3b8',
+    color: 'var(--text-muted)',
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '11px',
   };
@@ -74,12 +74,12 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
     bottom: '100%',
     left: '50%',
     transform: 'translateX(-50%)',
-    backgroundColor: '#0c0c0b',
-    border: '1px solid #1f2228',
+    backgroundColor: 'var(--bg-primary)',
+    border: '1px solid var(--border-strong)',
     borderRadius: '4px',
     padding: '12px',
     width: '280px',
-    color: '#d1d5db',
+    color: 'var(--text-secondary)',
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
     lineHeight: '1.4',
@@ -96,7 +96,7 @@ const SourcesPanel = ({ sources, onSourceClick }) => {
     marginLeft: '-5px',
     borderWidth: '5px',
     borderStyle: 'solid',
-    borderColor: '#1f2228 transparent transparent transparent',
+    borderColor: 'var(--border-strong) transparent transparent transparent',
   };
 
   return (

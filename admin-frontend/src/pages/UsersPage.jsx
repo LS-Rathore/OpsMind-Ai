@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as adminService from '../services/adminService.js';
 
 const UsersPage = () => {
@@ -8,6 +9,7 @@ const UsersPage = () => {
   const [tempPassword, setTempPassword] = useState('');
   const [error, setError] = useState('');
   const [hoveredAction, setHoveredAction] = useState({ id: null, type: null });
+  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     try {
@@ -60,7 +62,7 @@ const UsersPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '700',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
     marginBottom: '4px',
   };
@@ -68,16 +70,16 @@ const UsersPage = () => {
   const subtitleStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
     marginBottom: '24px',
   };
 
   const btnStyle = (variant = 'default') => ({
-    backgroundColor: variant === 'primary' ? 'var(--color-frost-white)' : 'transparent',
-    color: variant === 'primary' ? 'var(--color-deep-midnight)' : 'var(--color-muted-ash)',
-    border: variant === 'primary' ? 'none' : '1px solid var(--color-border-subtle)',
+    backgroundColor: variant === 'primary' ? 'var(--text-primary)' : 'transparent',
+    color: variant === 'primary' ? 'var(--bg-primary)' : 'var(--text-muted)',
+    border: variant === 'primary' ? 'none' : '1px solid var(--border-subtle)',
     borderRadius: '6px',
     padding: '8px 16px',
     fontFamily: 'var(--font-sans)',
@@ -96,20 +98,20 @@ const UsersPage = () => {
   const thStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '11px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     textAlign: 'left',
     padding: '12px 16px',
-    borderBottom: '1px solid var(--color-border-subtle)',
+    borderBottom: '1px solid var(--border-subtle)',
   };
 
   const tdStyle = {
     fontFamily: 'var(--font-sans)',
     fontSize: '14px',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     padding: '14px 16px',
-    borderBottom: '1px solid var(--color-border-subtle)',
+    borderBottom: '1px solid var(--border-subtle)',
     letterSpacing: '-0.015em',
   };
 
@@ -129,7 +131,7 @@ const UsersPage = () => {
     const isHovered = hoveredAction.id === id && hoveredAction.type === type;
     return {
       background: 'transparent', border: 'none',
-      color: isHovered ? 'var(--color-frost-white)' : 'var(--color-muted-ash)',
+      color: isHovered ? 'var(--text-primary)' : 'var(--text-muted)',
       cursor: 'pointer', fontSize: '13px',
       fontFamily: 'var(--font-sans)', padding: '4px 8px',
       transition: 'color 0.15s ease',
@@ -143,17 +145,17 @@ const UsersPage = () => {
   };
 
   const modalStyle = {
-    backgroundColor: 'var(--color-panel-bg)',
-    border: '1px solid var(--color-border-subtle)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-subtle)',
     width: '420px', padding: '32px', boxSizing: 'border-box',
     borderRadius: '8px',
   };
 
   const inputStyle = {
     width: '100%',
-    backgroundColor: 'var(--color-faded-steel)',
-    border: '1px solid var(--color-border-subtle)',
-    color: 'var(--color-frost-white)',
+    backgroundColor: 'var(--bg-tertiary)',
+    border: '1px solid var(--border-subtle)',
+    color: 'var(--text-primary)',
     padding: '10px 14px',
     borderRadius: '6px',
     fontFamily: 'var(--font-sans)',
@@ -192,7 +194,7 @@ const UsersPage = () => {
           {users.map((u) => (
             <tr key={u._id}>
               <td style={tdStyle}>{u.name}</td>
-              <td style={{ ...tdStyle, color: '#7d8187' }}>{u.email}</td>
+              <td style={{ ...tdStyle, color: 'var(--text-muted)' }}>{u.email}</td>
               <td style={tdStyle}>
                 <span style={{ fontFamily: "'Space Mono'", fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {u.role}
@@ -203,10 +205,18 @@ const UsersPage = () => {
                   {u.isActive !== false ? 'Active' : 'Inactive'}
                 </span>
               </td>
-              <td style={{ ...tdStyle, color: '#7d8187', fontSize: '13px' }}>
+              <td style={{ ...tdStyle, color: 'var(--text-muted)', fontSize: '13px' }}>
                 {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : '—'}
               </td>
               <td style={tdStyle}>
+                <button
+                  onClick={() => navigate(`/users/${u._id}`)}
+                  onMouseEnter={() => setHoveredAction({ id: u._id, type: 'view' })}
+                  onMouseLeave={() => setHoveredAction({ id: null, type: null })}
+                  style={getActionBtnStyle(u._id, 'view')}
+                >
+                  View
+                </button>
                 <button
                   onClick={() => handleToggleActive(u)}
                   onMouseEnter={() => setHoveredAction({ id: u._id, type: 'toggle' })}
@@ -241,11 +251,11 @@ const UsersPage = () => {
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
               </select>
-              {error && <div style={{ color: '#ff4d4f', fontSize: '13px', marginBottom: '12px' }}>{error}</div>}
+              {error && <div style={{ color: 'var(--color-danger)', fontSize: '13px', marginBottom: '12px' }}>{error}</div>}
               {tempPassword && (
-                <div style={{ backgroundColor: '#1f2228', padding: '12px', marginBottom: '12px', borderRadius: '4px', fontSize: '13px' }}>
-                  <span style={{ color: '#7d8187' }}>Temp Password: </span>
-                  <span style={{ color: '#4af2a1', fontFamily: "'Space Mono'" }}>{tempPassword}</span>
+                <div style={{ backgroundColor: 'var(--bg-tertiary)', padding: '12px', marginBottom: '12px', borderRadius: '4px', fontSize: '13px' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Temp Password: </span>
+                  <span style={{ color: 'var(--color-success)', fontFamily: "'Space Mono'" }}>{tempPassword}</span>
                 </div>
               )}
               <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>

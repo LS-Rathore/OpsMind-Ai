@@ -38,9 +38,9 @@ const ChatInput = ({ onSend, isLoading }) => {
   };
 
   const textareaStyle = {
-    backgroundColor: '#121212',
-    color: '#f8fafc',
-    border: '1px solid rgba(255, 255, 255, 0.08)',
+    backgroundColor: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
+    border: '1px solid var(--border-medium)',
     borderRadius: '24px',
     padding: '16px 56px 16px 24px',
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
@@ -62,8 +62,8 @@ const ChatInput = ({ onSend, isLoading }) => {
     right: '8px',
     top: '50%',
     transform: 'translateY(-50%)',
-    backgroundColor: isButtonDisabled ? 'rgba(255, 255, 255, 0.05)' : '#1f2228',
-    color: isButtonDisabled ? 'rgba(255, 255, 255, 0.3)' : '#ffffff',
+    backgroundColor: isButtonDisabled ? 'var(--border-subtle)' : 'var(--bg-tertiary)',
+    color: isButtonDisabled ? 'var(--text-faint)' : 'var(--text-primary)',
     border: 'none',
     borderRadius: '50%',
     width: '36px',

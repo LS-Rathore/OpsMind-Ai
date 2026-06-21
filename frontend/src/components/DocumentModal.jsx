@@ -39,8 +39,15 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const handleFile = async (file) => {
     if (!file) return;
 
-    if (file.type !== 'application/pdf') {
-      setUploadError('Only PDF files are allowed');
+    const validTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain',
+      'text/csv'
+    ];
+
+    if (!validTypes.includes(file.type) && !file.name.endsWith('.docx') && !file.name.endsWith('.csv')) {
+      setUploadError('Only PDF, DOCX, TXT, and CSV files are allowed');
       setUploadSuccess('');
       return;
     }
@@ -99,8 +106,8 @@ const DocumentModal = ({ isOpen, onClose }) => {
   };
 
   const modalStyle = {
-    backgroundColor: '#0f0f11',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-medium)',
     borderRadius: '16px',
     width: '90%',
     maxWidth: '680px',
@@ -108,7 +115,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
     display: 'flex',
     flexDirection: 'column',
     boxSizing: 'border-box',
-    color: '#ffffff',
+    color: 'var(--text-primary)',
     position: 'relative',
     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
   };
@@ -130,7 +137,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
 
   const closeBtnStyle = {
     backgroundColor: 'transparent',
-    color: hoveredClose ? '#ffffff' : '#7d8187',
+    color: hoveredClose ? 'var(--text-primary)' : 'var(--text-muted)',
     border: 'none',
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '24px',
@@ -149,11 +156,11 @@ const DocumentModal = ({ isOpen, onClose }) => {
   };
 
   const dropZoneStyle = {
-    border: isDragging ? '1px dashed #6366f1' : '1px dashed rgba(255, 255, 255, 0.1)',
+    border: isDragging ? '1px dashed var(--color-accent)' : '1px dashed var(--border-medium)',
     borderRadius: '12px',
     padding: '48px 24px',
     textAlign: 'center',
-    background: isDragging ? 'rgba(99, 102, 241, 0.05)' : '#16161a',
+    background: isDragging ? 'var(--color-accent-bg)' : 'var(--bg-tertiary)',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
   };
@@ -161,7 +168,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const dropZoneTextPrimary = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '14px',
-    color: '#e4e4e7',
+    color: 'var(--text-secondary)',
     fontWeight: '500',
     marginBottom: '8px',
   };
@@ -169,11 +176,11 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const dropZoneTextSub = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '12px',
-    color: '#71717a',
+    color: 'var(--text-faint)',
   };
 
   const progressBgStyle = {
-    backgroundColor: '#1f2228',
+    backgroundColor: 'var(--bg-primary)',
     height: '3px',
     width: '100%',
     marginTop: '12px',
@@ -181,7 +188,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
   };
 
   const progressFillStyle = {
-    backgroundColor: '#ffffff',
+    backgroundColor: 'var(--color-accent)',
     height: '100%',
     width: `${uploadProgress}%`,
     transition: 'width 0.1s linear',
@@ -190,7 +197,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const listHeaderStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '11px',
-    color: '#a1a1aa',
+    color: 'var(--text-faint)',
     letterSpacing: '0.05em',
     marginBottom: '16px',
     fontWeight: '600',
@@ -198,8 +205,8 @@ const DocumentModal = ({ isOpen, onClose }) => {
   };
 
   const documentCardStyle = {
-    backgroundColor: '#16161a',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
+    backgroundColor: 'var(--bg-tertiary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '12px',
     padding: '16px',
     marginBottom: '8px',
@@ -212,7 +219,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const docNameStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '14px',
-    color: '#f4f4f5',
+    color: 'var(--text-primary)',
     fontWeight: '600',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -223,7 +230,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const docMetaStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
-    color: '#71717a',
+    color: 'var(--text-muted)',
     marginTop: '4px',
   };
 
@@ -282,7 +289,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
     const isHovered = hoveredDelId === id;
     return {
       backgroundColor: 'transparent',
-      color: isHovered ? '#ef4444' : '#71717a',
+      color: isHovered ? 'var(--color-danger)' : 'var(--text-muted)',
       border: 'none',
       padding: '4px',
       fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
@@ -299,7 +306,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
   const statusTextStyle = (isError) => ({
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
-    color: isError ? '#ff4d4f' : '#4af2a1',
+    color: isError ? 'var(--color-danger)' : 'var(--color-success)',
     marginTop: '8px',
     textAlign: 'center',
   });
@@ -344,14 +351,14 @@ const DocumentModal = ({ isOpen, onClose }) => {
                   handleFile(e.target.files[0]);
                 }
               }}
-              accept=".pdf"
+              accept=".pdf,.docx,.txt,.csv"
               style={{ display: 'none' }}
             />
-            <svg style={{ color: '#a1a1aa', width: '32px', height: '32px', marginBottom: '16px', display: 'inline-block' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg style={{ color: 'var(--text-faint)', width: '32px', height: '32px', marginBottom: '16px', display: 'inline-block' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
-            <div style={dropZoneTextPrimary}>Drop SOP PDF here or <span style={{ color: '#6366f1', cursor: 'pointer' }}>click to browse</span></div>
-            <div style={dropZoneTextSub}>PDF only &bull; Max 10MB</div>
+            <div style={dropZoneTextPrimary}>Drop Document here or <span style={{ color: 'var(--color-accent)', cursor: 'pointer' }}>click to browse</span></div>
+            <div style={dropZoneTextSub}>PDF, DOCX, TXT, CSV &bull; Max 10MB</div>
             {isUploading && (
               <div style={progressBgStyle}>
                 <div style={progressFillStyle} />
@@ -366,7 +373,7 @@ const DocumentModal = ({ isOpen, onClose }) => {
             <div style={listHeaderStyle}>INDEXED DOCUMENTS ({documents.length})</div>
             <div style={{ maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }}>
               {documents.length === 0 ? (
-                <div style={{ color: '#7d8187', fontFamily: 'Inter', fontSize: '14px', padding: '16px 0' }}>
+                <div style={{ color: 'var(--text-muted)', fontFamily: 'Inter', fontSize: '14px', padding: '16px 0' }}>
                   No documents in the knowledge base.
                 </div>
               ) : (

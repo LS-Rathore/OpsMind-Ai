@@ -44,8 +44,8 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) =
     right: 0,
     bottom: 0,
     width: '480px',
-    backgroundColor: '#0f0f11',
-    borderLeft: '1px solid rgba(255, 255, 255, 0.06)',
+    backgroundColor: 'var(--bg-secondary)',
+    borderLeft: '1px solid var(--border-medium)',
     boxShadow: '-8px 0 32px rgba(0, 0, 0, 0.5)',
     zIndex: 1000,
     display: 'flex',
@@ -58,7 +58,7 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) =
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '16px 20px',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+    borderBottom: '1px solid var(--border-medium)',
     flexShrink: 0,
   };
 
@@ -85,7 +85,7 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) =
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '14px',
     fontWeight: '600',
-    color: '#f8fafc',
+    color: 'var(--text-primary)',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -94,14 +94,14 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) =
   const subtitleStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '11px',
-    color: '#94a3b8',
+    color: 'var(--text-muted)',
     marginTop: '2px',
   };
 
   const closeBtnStyle = {
-    background: isCloseHovered ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+    background: isCloseHovered ? 'var(--border-subtle)' : 'transparent',
     border: 'none',
-    color: isCloseHovered ? '#ffffff' : '#94a3b8',
+    color: isCloseHovered ? 'var(--text-primary)' : 'var(--text-muted)',
     cursor: 'pointer',
     padding: '8px',
     borderRadius: '6px',
@@ -121,7 +121,7 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) =
     width: '100%',
     height: '100%',
     border: 'none',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: 'var(--bg-tertiary)',
   };
 
   const errorContainerStyle = {
@@ -149,13 +149,13 @@ const PDFViewerPanel = ({ pdfUrl, filename, pageNumber, searchText, onClose }) =
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '16px',
     fontWeight: '600',
-    color: '#f8fafc',
+    color: 'var(--text-primary)',
   };
 
   const errorTextStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
-    color: '#94a3b8',
+    color: 'var(--text-muted)',
     lineHeight: '1.6',
     maxWidth: '340px',
   };

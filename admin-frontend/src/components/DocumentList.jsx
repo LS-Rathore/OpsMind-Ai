@@ -76,7 +76,7 @@ const DocumentList = ({ refresh }) => {
   const headerStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '11px',
-    color: '#a1a1aa',
+    color: 'var(--text-muted)',
     letterSpacing: '0.05em',
     marginBottom: '16px',
     fontWeight: '600',
@@ -84,8 +84,8 @@ const DocumentList = ({ refresh }) => {
   };
 
   const cardStyle = {
-    backgroundColor: '#16161a',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
+    backgroundColor: 'var(--bg-tertiary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '12px',
     padding: '16px',
     marginBottom: '8px',
@@ -98,14 +98,14 @@ const DocumentList = ({ refresh }) => {
   const filenameStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '14px',
-    color: '#f4f4f5',
+    color: 'var(--text-primary)',
     fontWeight: '600',
   };
 
   const metaStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
-    color: '#71717a',
+    color: 'var(--text-faint)',
     marginTop: '4px',
   };
 
@@ -131,7 +131,7 @@ const DocumentList = ({ refresh }) => {
     const isHovered = hoveredDelId === id;
     return {
       backgroundColor: 'transparent',
-      color: isHovered ? '#ef4444' : '#71717a',
+      color: isHovered ? 'var(--color-danger)' : 'var(--text-faint)',
       border: 'none',
       padding: '4px',
       fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
@@ -183,7 +183,7 @@ const DocumentList = ({ refresh }) => {
 
   const emptyStateStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-    color: '#7d8187',
+    color: 'var(--text-muted)',
     textAlign: 'center',
     padding: '48px',
   };

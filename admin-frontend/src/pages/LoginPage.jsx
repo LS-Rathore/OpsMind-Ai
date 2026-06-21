@@ -36,19 +36,19 @@ const LoginPage = () => {
   };
 
   const pageStyle = {
-    backgroundColor: '#050505',
+    backgroundColor: 'var(--bg-primary)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '100vh',
     boxSizing: 'border-box',
     padding: '24px',
-    backgroundImage: 'radial-gradient(circle at 50% 0%, #1a1a24 0%, #050505 50%)',
+    backgroundImage: 'radial-gradient(circle at 50% 0%, var(--bg-tertiary) 0%, var(--bg-primary) 50%)',
   };
 
   const cardStyle = {
-    backgroundColor: '#0f0f11',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '24px',
     padding: '56px 48px',
     width: '100%',
@@ -62,7 +62,7 @@ const LoginPage = () => {
   const titleStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '32px',
-    color: '#ffffff',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.03em',
     lineHeight: '1.2',
     marginBottom: '8px',
@@ -73,7 +73,7 @@ const LoginPage = () => {
   const subtitleStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '15px',
-    color: '#a1a1aa',
+    color: 'var(--text-muted)',
     letterSpacing: '-0.01em',
     textAlign: 'center',
     marginBottom: '48px',
@@ -82,7 +82,7 @@ const LoginPage = () => {
   const labelStyle = {
     fontFamily: "'Space Mono', ui-monospace, monospace",
     fontSize: '11px',
-    color: '#71717a',
+    color: 'var(--text-muted)',
     letterSpacing: '0.1em',
     marginBottom: '10px',
     display: 'block',
@@ -93,10 +93,10 @@ const LoginPage = () => {
   const getInputStyle = (fieldName) => {
     const isFocused = focusedField === fieldName;
     return {
-      backgroundColor: '#050505',
-      color: '#e4e4e7',
+      backgroundColor: 'var(--bg-primary)',
+      color: 'var(--text-secondary)',
       border: '1px solid',
-      borderColor: isFocused ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.08)',
+      borderColor: isFocused ? 'var(--border-strong)' : 'var(--border-subtle)',
       borderRadius: '16px',
       padding: '16px 20px',
       fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
@@ -106,7 +106,7 @@ const LoginPage = () => {
       outline: 'none',
       boxSizing: 'border-box',
       marginBottom: '24px',
-      boxShadow: isFocused ? '0 0 0 1px rgba(255,255,255,0.05)' : 'none',
+      boxShadow: isFocused ? '0 0 0 1px var(--border-subtle)' : 'none',
       transition: 'all 0.2s ease',
     };
   };
@@ -134,7 +134,7 @@ const LoginPage = () => {
   const toggleLinkStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '13px',
-    color: '#a1a1aa',
+    color: 'var(--text-muted)',
     textAlign: 'center',
     marginTop: '32px',
     cursor: 'pointer',

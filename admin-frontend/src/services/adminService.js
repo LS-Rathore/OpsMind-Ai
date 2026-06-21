@@ -26,6 +26,11 @@ export const resetPassword = async (id) => {
   return response.data;
 };
 
+export const getUserProfile = async (id) => {
+  const response = await api.get(`/admin/users/${id}/profile`);
+  return response.data;
+};
+
 // ─── Analytics ──────────────────────────────────────────────────
 export const getAnalytics = async () => {
   const response = await api.get('/admin/analytics');

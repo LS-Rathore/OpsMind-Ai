@@ -18,8 +18,8 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText
   };
 
   const modalStyle = {
-    backgroundColor: '#16161a',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-medium)',
     borderRadius: '12px',
     padding: '24px',
     width: '100%',
@@ -31,13 +31,13 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText
   const titleStyle = {
     fontSize: '18px',
     fontWeight: '600',
-    color: '#ffffff',
+    color: 'var(--text-primary)',
     marginBottom: '12px',
   };
 
   const messageStyle = {
     fontSize: '14px',
-    color: '#a1a1aa',
+    color: 'var(--text-muted)',
     lineHeight: '1.5',
     marginBottom: '24px',
   };
@@ -50,8 +50,8 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText
 
   const cancelBtnStyle = {
     backgroundColor: 'transparent',
-    color: '#a1a1aa',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    color: 'var(--text-muted)',
+    border: '1px solid var(--border-medium)',
     padding: '8px 16px',
     borderRadius: '6px',
     fontSize: '14px',

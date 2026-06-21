@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
+import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 import UsersPage from './pages/UsersPage.jsx';
@@ -10,17 +11,18 @@ import MonitoringPage from './pages/MonitoringPage.jsx';
 import AuditLogsPage from './pages/AuditLogsPage.jsx';
 import SystemHealthPage from './pages/SystemHealthPage.jsx';
 import FeedbackPage from './pages/FeedbackPage.jsx';
+import UserProfilePage from './pages/UserProfilePage.jsx';
 import AdminLayout from './components/AdminLayout.jsx';
 import './styles/index.css';
 
 const loadingStyle = {
-  backgroundColor: '#0c0c0b',
+  backgroundColor: 'var(--bg-primary)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: '100vh',
   width: '100vw',
-  color: '#7d8187',
+  color: 'var(--text-muted)',
   fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
   fontSize: '18px',
   letterSpacing: '-0.025em',
@@ -80,27 +82,30 @@ const PublicRoute = ({ children }) => {
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
-        <Route path="/" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
-        <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
-        <Route path="/documents" element={<ProtectedRoute><DocumentsPage /></ProtectedRoute>} />
-        <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
-        <Route path="/monitoring" element={<ProtectedRoute><MonitoringPage /></ProtectedRoute>} />
-        <Route path="/audit-logs" element={<ProtectedRoute><AuditLogsPage /></ProtectedRoute>} />
-        <Route path="/system-health" element={<ProtectedRoute><SystemHealthPage /></ProtectedRoute>} />
-        <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route path="/" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+          <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
+          <Route path="/users/:id" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
+          <Route path="/documents" element={<ProtectedRoute><DocumentsPage /></ProtectedRoute>} />
+          <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
+          <Route path="/monitoring" element={<ProtectedRoute><MonitoringPage /></ProtectedRoute>} />
+          <Route path="/audit-logs" element={<ProtectedRoute><AuditLogsPage /></ProtectedRoute>} />
+          <Route path="/system-health" element={<ProtectedRoute><SystemHealthPage /></ProtectedRoute>} />
+          <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 

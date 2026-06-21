@@ -1,32 +1,69 @@
 /* Admin Dashboard Styles */
 
 :root {
-  --color-deep-midnight: #0A0A0B;
-  --color-panel-bg: #121212;
-  --color-faded-steel: #1A1A1A;
-  --color-border-subtle: #222222;
-  --color-frost-white: #ffffff;
-  --color-muted-ash: #8B8D98;
-  --color-whisper-gray: #52525B;
-  --color-electric-blue: #2563eb;
-  --color-danger: #EF4444;
+  /* Semantic Colors - Dark Theme (Default) */
+  --bg-primary: #0A0A0B;
+  --bg-secondary: #121212;
+  --bg-tertiary: #1A1A1A;
+  --bg-panel: #121212;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #8B8D98;
+  --text-faint: #52525B;
+  
+  --border-subtle: #222222;
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  
+  --color-accent: #2563eb;
+  --color-accent-light: #3b82f6;
+  --color-accent-bg: rgba(59, 130, 246, 0.1);
   --color-success: #10B981;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Space Mono', ui-monospace, monospace;
 }
 
+.light-theme {
+  /* Semantic Colors - Light Theme */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-panel: #ffffff;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+  
+  --border-subtle: rgba(0, 0, 0, 0.05);
+  --border-medium: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  
+  --color-accent: #2563eb;
+  --color-accent-light: #3b82f6;
+  --color-accent-bg: rgba(59, 130, 246, 0.1);
+  --color-success: #059669;
+  --color-danger: #dc2626;
+  --color-warning: #d97706;
+}
+
 body {
-  background-color: var(--color-deep-midnight);
-  color: var(--color-frost-white);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   letter-spacing: -0.025em;
   line-height: 1.5;
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1f2228 transparent;
+  scrollbar-color: var(--border-subtle) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -39,7 +76,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #1f2228;
+  background-color: var(--border-subtle);
   border-radius: 3px;
 }
 

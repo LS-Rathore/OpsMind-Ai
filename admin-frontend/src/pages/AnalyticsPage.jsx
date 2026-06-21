@@ -27,7 +27,7 @@ const AnalyticsPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '700',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
     marginBottom: '4px',
   };
@@ -35,7 +35,7 @@ const AnalyticsPage = () => {
   const subtitleStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
     marginBottom: '32px',
@@ -49,8 +49,8 @@ const AnalyticsPage = () => {
   };
 
   const cardStyle = {
-    backgroundColor: 'var(--color-panel-bg)',
-    border: '1px solid var(--color-border-subtle)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '4px',
     padding: '24px',
   };
@@ -58,7 +58,7 @@ const AnalyticsPage = () => {
   const cardLabelStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '11px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     marginBottom: '16px',
@@ -68,7 +68,7 @@ const AnalyticsPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '600',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
   };
 
@@ -76,7 +76,7 @@ const AnalyticsPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '18px',
     fontWeight: '600',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.015em',
     marginBottom: '20px',
   };
@@ -86,18 +86,18 @@ const AnalyticsPage = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '16px 20px',
-    borderBottom: '1px solid var(--color-border-subtle)',
+    borderBottom: '1px solid var(--border-subtle)',
     fontFamily: 'var(--font-sans)',
     fontSize: '14px',
-    color: 'var(--color-frost-white)',
-    backgroundColor: 'var(--color-panel-bg)',
+    color: 'var(--text-primary)',
+    backgroundColor: 'var(--bg-secondary)',
   });
 
   const rankStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
-    backgroundColor: 'var(--color-faded-steel)',
+    color: 'var(--text-muted)',
+    backgroundColor: 'var(--bg-tertiary)',
     padding: '4px 8px',
     borderRadius: '4px',
     marginRight: '12px',
@@ -107,7 +107,7 @@ const AnalyticsPage = () => {
   const countStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.05em',
   };
 
@@ -115,16 +115,16 @@ const AnalyticsPage = () => {
     if (active && payload && payload.length) {
       return (
         <div style={{
-          backgroundColor: '#1f2228',
-          border: '1px solid #333',
+          backgroundColor: 'var(--bg-primary)',
+          border: '1px solid var(--border-medium)',
           padding: '12px',
           borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
           fontFamily: 'var(--font-sans)',
         }}>
-          <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
-          <p style={{ color: '#fff', fontSize: '16px', fontWeight: '600' }}>
-            {payload[0].value} <span style={{ color: '#7d8187', fontSize: '14px', fontWeight: '400' }}>{payload[0].name}</span>
+          <p style={{ color: 'var(--text-muted)', fontSize: '12px', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
+          <p style={{ color: 'var(--text-primary)', fontSize: '16px', fontWeight: '600' }}>
+            {payload[0].value} <span style={{ color: 'var(--text-faint)', fontSize: '14px', fontWeight: '400' }}>{payload[0].name}</span>
           </p>
         </div>
       );
@@ -143,8 +143,8 @@ const AnalyticsPage = () => {
   }
 
   const chartCardStyle = {
-    backgroundColor: '#10100f',
-    border: '1px solid #1f2228',
+    backgroundColor: 'var(--bg-tertiary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '8px',
     padding: '24px',
     display: 'flex',
@@ -152,7 +152,7 @@ const AnalyticsPage = () => {
   };
 
   if (loading) {
-    return <div style={{ color: '#7d8187', fontFamily: 'Inter', fontSize: '16px', padding: '60px 0' }}>Loading analytics...</div>;
+    return <div style={{ color: 'var(--text-muted)', fontFamily: 'Inter', fontSize: '16px', padding: '60px 0' }}>Loading analytics...</div>;
   }
 
   return (
@@ -248,10 +248,10 @@ const AnalyticsPage = () => {
             </ResponsiveContainer>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', color: '#94a3b8' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', color: 'var(--text-muted)' }}>
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981' }} /> Upvotes
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', color: '#94a3b8' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', color: 'var(--text-muted)' }}>
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ef4444' }} /> Downvotes
             </div>
           </div>
@@ -276,13 +276,13 @@ const AnalyticsPage = () => {
                   tickFormatter={(value) => value.length > 20 ? value.substring(0, 20) + '...' : value}
                 />
                 <Tooltip 
-                  cursor={{ fill: '#1f2228' }}
+                  cursor={{ fill: 'var(--border-subtle)' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
-                        <div style={{ backgroundColor: '#1f2228', border: '1px solid #333', padding: '12px', borderRadius: '8px', color: '#fff', fontFamily: 'Inter' }}>
-                          <div style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '4px' }}>{payload[0].payload.filename}</div>
-                          <div style={{ fontSize: '16px', fontWeight: '600' }}>{payload[0].value} <span style={{ fontSize: '13px', color: '#7d8187', fontWeight: '400' }}>Uses</span></div>
+                        <div style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border-medium)', padding: '12px', borderRadius: '8px', color: 'var(--text-primary)', fontFamily: 'Inter' }}>
+                          <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>{payload[0].payload.filename}</div>
+                          <div style={{ fontSize: '16px', fontWeight: '600' }}>{payload[0].value} <span style={{ fontSize: '13px', color: 'var(--text-faint)', fontWeight: '400' }}>Uses</span></div>
                         </div>
                       );
                     }
@@ -293,7 +293,7 @@ const AnalyticsPage = () => {
               </BarChart>
             </ResponsiveContainer>
             {(data?.topDocuments || []).length === 0 && (
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7d8187', fontSize: '14px', fontFamily: 'Inter' }}>No document data yet</div>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '14px', fontFamily: 'Inter' }}>No document data yet</div>
             )}
           </div>
         </div>
@@ -302,7 +302,7 @@ const AnalyticsPage = () => {
           <h3 style={sectionTitleStyle}>Most Asked Questions</h3>
           <div style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '300px' }}>
             {(data?.topQuestions || []).length === 0 ? (
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7d8187', fontSize: '14px' }}>No data yet</div>
+              <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '14px' }}>No data yet</div>
             ) : (
               <div style={{ overflowY: 'auto', paddingRight: '8px' }}>
                 {data.topQuestions.map((q, i) => (

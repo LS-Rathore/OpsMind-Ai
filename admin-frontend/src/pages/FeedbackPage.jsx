@@ -27,7 +27,7 @@ const FeedbackPage = () => {
     fontFamily: 'var(--font-sans)',
     fontSize: '32px',
     fontWeight: '700',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.025em',
     marginBottom: '4px',
   };
@@ -35,7 +35,7 @@ const FeedbackPage = () => {
   const subtitleStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.1em',
     textTransform: 'uppercase',
     marginBottom: '32px',
@@ -50,9 +50,9 @@ const FeedbackPage = () => {
   const filterBtnStyle = (active) => ({
     padding: '8px 16px',
     borderRadius: '4px',
-    border: '1px solid var(--color-border-subtle)',
-    backgroundColor: active ? 'var(--color-faded-steel)' : 'var(--color-panel-bg)',
-    color: active ? 'var(--color-frost-white)' : 'var(--color-muted-ash)',
+    border: '1px solid var(--border-subtle)',
+    backgroundColor: active ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+    color: active ? 'var(--text-primary)' : 'var(--text-muted)',
     fontFamily: 'var(--font-sans)',
     fontSize: '13px',
     cursor: 'pointer',
@@ -60,8 +60,8 @@ const FeedbackPage = () => {
   });
 
   const cardStyle = {
-    backgroundColor: 'var(--color-panel-bg)',
-    border: '1px solid var(--color-border-subtle)',
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '8px',
     padding: '24px',
     marginBottom: '16px',
@@ -92,21 +92,21 @@ const FeedbackPage = () => {
 
   const metaStyle = {
     fontSize: '12px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     fontFamily: 'var(--font-mono)',
   };
 
   const contentStyle = {
     fontSize: '14px',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     lineHeight: '1.6',
     whiteSpace: 'pre-wrap',
     maxHeight: '150px',
     overflowY: 'auto',
-    backgroundColor: '#121212',
+    backgroundColor: 'var(--bg-tertiary)',
     padding: '16px',
     borderRadius: '6px',
-    border: '1px solid rgba(255, 255, 255, 0.05)',
+    border: '1px solid var(--border-subtle)',
   };
 
   return (
@@ -121,9 +121,9 @@ const FeedbackPage = () => {
       </div>
 
       {loading ? (
-        <div style={{ color: '#7d8187', fontFamily: 'Inter', fontSize: '14px', padding: '20px 0' }}>Loading feedback...</div>
+        <div style={{ color: 'var(--text-muted)', fontFamily: 'Inter', fontSize: '14px', padding: '20px 0' }}>Loading feedback...</div>
       ) : feedbacks.length === 0 ? (
-        <div style={{ color: '#7d8187', fontFamily: 'Inter', fontSize: '14px', padding: '40px 0', textAlign: 'center', backgroundColor: 'var(--color-panel-bg)', borderRadius: '8px', border: '1px dashed var(--color-border-subtle)' }}>
+        <div style={{ color: 'var(--text-muted)', fontFamily: 'Inter', fontSize: '14px', padding: '40px 0', textAlign: 'center', backgroundColor: 'var(--bg-secondary)', borderRadius: '8px', border: '1px dashed var(--border-subtle)' }}>
           No feedback matches this filter.
         </div>
       ) : (
@@ -131,7 +131,7 @@ const FeedbackPage = () => {
           <div key={item._id} style={cardStyle}>
             <div style={cardHeaderStyle}>
               <div>
-                <div style={{ color: '#ffffff', fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
+                <div style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
                   {item.user.name} ({item.user.email})
                 </div>
                 <div style={metaStyle}>{new Date(item.createdAt).toLocaleString()}</div>
@@ -141,7 +141,7 @@ const FeedbackPage = () => {
               </div>
             </div>
             <div>
-              <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI Response</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI Response</div>
               <div style={contentStyle}>{item.content}</div>
             </div>
           </div>

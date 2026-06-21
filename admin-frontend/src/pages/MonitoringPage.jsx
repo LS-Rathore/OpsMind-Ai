@@ -47,13 +47,13 @@ const MonitoringPage = () => {
 
   const titleStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-    fontSize: '32px', fontWeight: '700', color: '#ffffff',
+    fontSize: '32px', fontWeight: '700', color: 'var(--text-primary)',
     letterSpacing: '-0.025em', marginBottom: '4px',
   };
 
   const subtitleStyle = {
     fontFamily: "'Space Mono', ui-monospace, monospace",
-    fontSize: '12px', color: '#7d8187', letterSpacing: '0.1em',
+    fontSize: '12px', color: 'var(--text-muted)', letterSpacing: '0.1em',
     textTransform: 'uppercase', marginBottom: '24px',
   };
 
@@ -62,9 +62,9 @@ const MonitoringPage = () => {
   };
 
   const filterBtnStyle = (active) => ({
-    backgroundColor: active ? '#1f2228' : 'transparent',
-    color: active ? '#ffffff' : '#7d8187',
-    border: '1px solid #1f2228', borderRadius: '6px',
+    backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
+    color: active ? 'var(--text-primary)' : 'var(--text-muted)',
+    border: '1px solid var(--border-subtle)', borderRadius: '6px',
     padding: '6px 14px', fontSize: '13px', cursor: 'pointer',
     fontFamily: 'Inter', transition: 'all 0.15s ease',
   });
@@ -78,20 +78,20 @@ const MonitoringPage = () => {
   const thStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: '11px',
-    color: 'var(--color-muted-ash)',
+    color: 'var(--text-muted)',
     letterSpacing: '0.08em',
     textTransform: 'uppercase',
     textAlign: 'left',
     padding: '12px 16px',
-    borderBottom: '1px solid var(--color-border-subtle)',
+    borderBottom: '1px solid var(--border-subtle)',
   };
 
   const tdStyle = {
     fontFamily: 'var(--font-sans)',
     fontSize: '14px',
-    color: 'var(--color-frost-white)',
+    color: 'var(--text-primary)',
     padding: '14px 16px',
-    borderBottom: '1px solid var(--color-border-subtle)',
+    borderBottom: '1px solid var(--border-subtle)',
     letterSpacing: '-0.015em',
   };
 
@@ -109,7 +109,7 @@ const MonitoringPage = () => {
   const expandBtnStyle = (isHovered) => ({
     background: 'transparent',
     border: 'none',
-    color: isHovered ? 'var(--color-frost-white)' : 'var(--color-muted-ash)',
+    color: isHovered ? 'var(--text-primary)' : 'var(--text-muted)',
     cursor: 'pointer',
     fontSize: '13px',
     fontFamily: 'var(--font-sans)',
@@ -125,26 +125,26 @@ const MonitoringPage = () => {
   };
 
   const expandedStyle = {
-    backgroundColor: 'var(--color-panel-bg)',
-    borderBottom: '1px solid var(--color-border-subtle)',
+    backgroundColor: 'var(--bg-secondary)',
+    borderBottom: '1px solid var(--border-subtle)',
     padding: '16px 24px',
   };
 
   const msgStyle = (role) => ({
     padding: '12px 16px', marginBottom: '8px', borderRadius: '4px',
-    backgroundColor: role === 'user' ? 'var(--color-faded-steel)' : 'transparent',
-    border: role === 'assistant' ? '1px solid var(--color-border-subtle)' : 'none',
-    fontSize: '14px', lineHeight: '1.5', color: 'var(--color-frost-white)',
+    backgroundColor: role === 'user' ? 'var(--bg-tertiary)' : 'transparent',
+    border: role === 'assistant' ? '1px solid var(--border-subtle)' : 'none',
+    fontSize: '14px', lineHeight: '1.5', color: 'var(--text-primary)',
     fontFamily: 'var(--font-sans)',
   });
 
   const msgRoleStyle = {
-    fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--color-muted-ash)',
+    fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)',
     textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px',
   };
 
   const metaBadge = (isHallucination) => ({
-    fontSize: '10px', fontFamily: 'var(--font-mono)', color: isHallucination ? 'var(--color-danger)' : 'var(--color-muted-ash)',
+    fontSize: '10px', fontFamily: 'var(--font-mono)', color: isHallucination ? 'var(--color-danger)' : 'var(--text-muted)',
     marginLeft: '12px',
     backgroundColor: isHallucination ? 'var(--color-danger)11' : 'transparent',
     padding: isHallucination ? '2px 6px' : '0',
@@ -157,14 +157,14 @@ const MonitoringPage = () => {
   };
 
   const pageBtnStyle = (disabled) => ({
-    backgroundColor: 'transparent', color: disabled ? '#474747' : '#7d8187',
-    border: '1px solid #1f2228', borderRadius: '6px',
+    backgroundColor: 'transparent', color: disabled ? 'var(--border-subtle)' : 'var(--text-muted)',
+    border: '1px solid var(--border-subtle)', borderRadius: '6px',
     padding: '6px 14px', fontSize: '13px', cursor: disabled ? 'not-allowed' : 'pointer',
     fontFamily: 'Inter', transition: 'all 0.15s ease',
   });
 
   if (loading && conversations.length === 0) {
-    return <div style={{ color: '#7d8187', fontFamily: 'Inter', fontSize: '16px', padding: '60px 0' }}>Loading conversations...</div>;
+    return <div style={{ color: 'var(--text-muted)', fontFamily: 'Inter', fontSize: '16px', padding: '60px 0' }}>Loading conversations...</div>;
   }
 
   return (
@@ -175,7 +175,7 @@ const MonitoringPage = () => {
       <div style={filterBarStyle}>
         <button style={filterBtnStyle(!filterHallucination)} onClick={() => { setFilterHallucination(false); setPage(1); }}>All</button>
         <button style={filterBtnStyle(filterHallucination)} onClick={() => { setFilterHallucination(true); setPage(1); }}>Hallucinations Only</button>
-        <span style={{ fontFamily: "'Space Mono'", fontSize: '11px', color: '#7d8187', marginLeft: 'auto' }}>
+        <span style={{ fontFamily: "'Space Mono'", fontSize: '11px', color: 'var(--text-muted)', marginLeft: 'auto' }}>
           {total} conversations
         </span>
       </div>
@@ -198,11 +198,11 @@ const MonitoringPage = () => {
                 <td style={{ ...tdStyle, maxWidth: '240px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {c.title}
                 </td>
-                <td style={{ ...tdStyle, color: '#7d8187' }}>{c.messageCount}</td>
+                <td style={{ ...tdStyle, color: 'var(--text-muted)' }}>{c.messageCount}</td>
                 <td style={tdStyle}>
                   {c.hasHallucination && <span style={hallucinationBadge}>HALLUCINATION</span>}
                 </td>
-                <td style={{ ...tdStyle, color: '#7d8187', fontSize: '13px' }}>
+                <td style={{ ...tdStyle, color: 'var(--text-muted)', fontSize: '13px' }}>
                   {new Date(c.updatedAt).toLocaleString()}
                 </td>
               </tr>
@@ -233,7 +233,7 @@ const MonitoringPage = () => {
 
       <div style={paginationStyle}>
         <button style={pageBtnStyle(page <= 1)} onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>← Prev</button>
-        <span style={{ fontFamily: "'Space Mono'", fontSize: '12px', color: '#7d8187' }}>
+        <span style={{ fontFamily: "'Space Mono'", fontSize: '12px', color: 'var(--text-muted)' }}>
           Page {page} of {totalPages}
         </span>
         <button style={pageBtnStyle(page >= totalPages)} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next →</button>

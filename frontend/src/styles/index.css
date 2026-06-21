@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --color-deep-midnight: #0c0c0b;
-  --color-faded-steel: #1f2228;
-  --color-frost-white: #ffffff;
-  --color-muted-ash: #7d8187;
-  --color-whisper-gray: #474747;
-  --color-electric-blue: #2563eb;
+  /* Semantic Colors - Dark Theme (Default) */
+  --bg-primary: #0c0c0b;
+  --bg-secondary: #121212;
+  --bg-tertiary: #1f2228;
+  --bg-panel: #16161a;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #7d8187;
+  --text-faint: #64748b;
+  
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  
+  --color-accent: #2563eb;
+  --color-accent-light: #3b82f6;
+  --color-accent-bg: rgba(59, 130, 246, 0.1);
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Space Mono', ui-monospace, monospace;
-  --radius-input: 24px;
-  --radius-button: 9999px;
-  --shadow-focus: rgb(113, 113, 122) 0px 0px 0px 2px;
+}
+
+.light-theme {
+  /* Semantic Colors - Light Theme */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-panel: #ffffff;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+  
+  --border-subtle: rgba(0, 0, 0, 0.05);
+  --border-medium: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  
+  --color-accent: #2563eb;
+  --color-accent-light: #3b82f6;
+  --color-accent-bg: rgba(59, 130, 246, 0.1);
+  --color-success: #059669;
+  --color-danger: #dc2626;
+  --color-warning: #d97706;
 }
 
 body {
-  background-color: #0c0c0b;
-  color: #ffffff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   letter-spacing: -0.025em;
   line-height: 1.5;
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {
@@ -38,7 +76,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #1f2228;
+  background-color: var(--bg-tertiary);
   border-radius: 3px;
 }
 
@@ -51,7 +89,7 @@ body {
   display: inline-block;
   width: 2px;
   height: 1em;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   margin-left: 2px;
   animation: blink 0.8s step-end infinite;
 }
@@ -73,7 +111,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #ffffffff;
+  background-color: var(--text-primary);
   will-change: transform;
   animation: jumping-dots 0.8s infinite alternate ease-in-out;
 }
@@ -124,7 +162,7 @@ body {
 
 .markdown-body strong {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .markdown-body ul, .markdown-body ol {
@@ -148,31 +186,31 @@ body {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1em;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-medium);
 }
 
 .markdown-body th, .markdown-body td {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-medium);
   padding: 8px 12px;
   text-align: left;
 }
 
 .markdown-body th {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--border-subtle);
   font-weight: 600;
 }
 
 .markdown-body code {
   font-family: var(--font-mono);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-subtle);
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-size: 0.85em;
 }
 
 .markdown-body pre {
-  background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
   padding: 12px;
   border-radius: 8px;
   overflow-x: auto;
@@ -184,7 +222,7 @@ body {
   padding: 0;
   border-radius: 0;
   font-size: 0.85em;
-  color: #e2e8f0;
+  color: var(--text-secondary);
 }
 
 .user-markdown {
@@ -199,9 +237,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent-light);
+  border: 1px solid var(--color-accent-bg);
   padding: 0px 6px;
   border-radius: 4px;
   font-family: var(--font-sans);
@@ -216,8 +254,7 @@ body {
 }
 
 .citation-link:hover {
-  background-color: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.4);
+  background-color: var(--border-medium);
   transform: translateY(-1px);
 }
 

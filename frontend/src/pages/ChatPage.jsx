@@ -34,18 +34,23 @@ const ChatPage = () => {
     try {
       const doc = await getDocumentByFilename(source.filename);
       if (doc) {
-        const pdfUrl = getDocumentViewUrl(doc._id);
-        setPdfViewer({
-          pdfUrl,
-          filename: source.filename,
-          pageNumber: source.pageNumber,
-          searchText: source.text,
-        });
+        const viewUrl = getDocumentViewUrl(doc._id);
+        if (source.filename.toLowerCase().endsWith('.pdf')) {
+          setPdfViewer({
+            pdfUrl: viewUrl,
+            filename: source.filename,
+            pageNumber: source.pageNumber,
+            searchText: source.text,
+          });
+        } else {
+          // For non-PDFs, open in a new tab to trigger a download
+          window.open(viewUrl, '_blank');
+        }
       } else {
         console.warn('Document not found for filename:', source.filename);
       }
     } catch (err) {
-      console.error('Failed to open PDF viewer:', err);
+      console.error('Failed to open document:', err);
     }
   };
 
@@ -56,13 +61,18 @@ const ChatPage = () => {
     try {
       const doc = await getDocumentByFilename(filename);
       if (doc) {
-        const pdfUrl = getDocumentViewUrl(doc._id);
-        setPdfViewer({
-          pdfUrl,
-          filename,
-          pageNumber,
-          searchText: source?.text || '',
-        });
+        const viewUrl = getDocumentViewUrl(doc._id);
+        if (filename.toLowerCase().endsWith('.pdf')) {
+          setPdfViewer({
+            pdfUrl: viewUrl,
+            filename,
+            pageNumber,
+            searchText: source?.text || '',
+          });
+        } else {
+          // For non-PDFs, open in a new tab to trigger a download
+          window.open(viewUrl, '_blank');
+        }
       }
     } catch (err) {
       console.error('Failed to open inline citation:', err);
@@ -97,8 +107,8 @@ const ChatPage = () => {
   const outerContainerStyle = {
     display: 'flex',
     height: '100vh',
-    backgroundColor: '#0a0a0a',
-    color: '#e2e8f0',
+    backgroundColor: 'var(--bg-primary)',
+    color: 'var(--text-secondary)',
     overflow: 'hidden',
     boxSizing: 'border-box',
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
@@ -133,7 +143,7 @@ const ChatPage = () => {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontSize: '28px',
     fontWeight: '700',
-    color: '#f8fafc',
+    color: 'var(--text-primary)',
     letterSpacing: '-0.02em',
     textAlign: 'center',
     gap: '16px',
@@ -142,7 +152,7 @@ const ChatPage = () => {
   const emptyStateSubtextStyle = {
     fontSize: '15px',
     fontWeight: '400',
-    color: '#94a3b8',
+    color: 'var(--text-faint)',
     maxWidth: '500px',
     lineHeight: '1.5',
   };
