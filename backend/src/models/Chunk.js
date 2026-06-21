@@ -8,6 +8,8 @@ const chunkSchema = new mongoose.Schema(
     chunkIndex: { type: Number, required: true },
     text: { type: String, required: true },
     embedding: { type: [Number], required: true },
+    uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    visibility: { type: String, enum: ['public', 'private'], default: 'private' },
   },
   { timestamps: true }
 );

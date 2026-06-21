@@ -15,7 +15,7 @@ router.post('/', verifyToken, async (req, res) => {
     res.setHeader('Connection', 'keep-alive');
     res.flushHeaders();
 
-    const chunks = await retrieveRelevantChunks(query, 5);
+    const chunks = await retrieveRelevantChunks(query, 5, req.user.id);
 
     let fullResponse = '';
     let sources = [];

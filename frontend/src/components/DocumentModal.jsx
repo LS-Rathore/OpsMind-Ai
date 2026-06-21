@@ -245,6 +245,39 @@ const DocumentModal = ({ isOpen, onClose }) => {
     letterSpacing: '0.02em',
   };
 
+  const getVisibilityBadgeStyle = (visibility) => {
+    if (visibility === 'public') {
+      return {
+        fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+        fontSize: '11px',
+        fontWeight: '600',
+        color: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        border: '1px solid rgba(59, 130, 246, 0.2)',
+        padding: '4px 10px',
+        borderRadius: '9999px',
+        letterSpacing: '0.02em',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
+      };
+    }
+    return {
+      fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+      fontSize: '11px',
+      fontWeight: '600',
+      color: '#f59e0b',
+      backgroundColor: 'rgba(245, 158, 11, 0.1)',
+      border: '1px solid rgba(245, 158, 11, 0.2)',
+      padding: '4px 10px',
+      borderRadius: '9999px',
+      letterSpacing: '0.02em',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '4px',
+    };
+  };
+
   const getDeleteBtnStyle = (id) => {
     const isHovered = hoveredDelId === id;
     return {
@@ -363,6 +396,9 @@ const DocumentModal = ({ isOpen, onClose }) => {
                       </div>
                     </div>
                     <div style={actionSectionStyle}>
+                      <span style={getVisibilityBadgeStyle(doc.visibility)}>
+                        {doc.visibility === 'public' ? '🌐 PUBLIC' : '🔒 PRIVATE'}
+                      </span>
                       <span style={badgeStyle}>{doc.status === 'completed' || doc.status === 'indexed' || doc.status ? 'INDEXED' : doc.status}</span>
                       {(() => {
                         const userId = user?._id || user?.id;

@@ -9,6 +9,7 @@ const auditLogSchema = new mongoose.Schema(
         'document_upload',
         'document_delete',
         'document_reindex',
+        'document_visibility_change',
         'user_create',
         'user_deactivate',
         'user_activate',

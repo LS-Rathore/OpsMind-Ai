@@ -1,13 +1,19 @@
 import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
+import mongoose from 'mongoose';
 import Chunk from '../models/Chunk.js';
 
-export const retrieveRelevantChunks = async (queryText, topK = 5) => {
+export const retrieveRelevantChunks = async (queryText, topK = 5, userId = null) => {
   const embeddings = new GoogleGenerativeAIEmbeddings({
     modelName: 'gemini-embedding-2',
     apiKey: process.env.GEMINI_API_KEY,
   });
 
   const queryVector = await embeddings.embedQuery(queryText);
+
+  // Build visibility filter: public chunks + current user's private chunks
+  const visibilityFilter = userId
+    ? { $or: [{ visibility: 'public' }, { uploadedBy: new mongoose.Types.ObjectId(userId) }] }
+    : { visibility: 'public' };
 
   let results = [];
   try {
@@ -18,8 +24,14 @@ export const retrieveRelevantChunks = async (queryText, topK = 5) => {
           path: 'embedding',
           queryVector,
           numCandidates: 100,
-          limit: topK,
+          limit: topK * 3, // Fetch extra to account for filtering
         },
+      },
+      {
+        $match: visibilityFilter,
+      },
+      {
+        $limit: topK,
       },
       {
         $project: {
@@ -27,6 +39,7 @@ export const retrieveRelevantChunks = async (queryText, topK = 5) => {
           filename: 1,
           pageNumber: 1,
           chunkIndex: 1,
+          documentId: 1,
           score: { $meta: 'vectorSearchScore' },
         },
       },
@@ -38,7 +51,7 @@ export const retrieveRelevantChunks = async (queryText, topK = 5) => {
   // Fallback: If Atlas vector search returns 0 results (e.g. index not created/ready)
   if (!results || results.length === 0) {
     console.log('No vector search results. Calculating in-memory cosine similarity...');
-    const allChunks = await Chunk.find({});
+    const allChunks = await Chunk.find(visibilityFilter);
     
     const cosineSimilarity = (vecA, vecB) => {
       if (!vecA || !vecB || vecA.length !== vecB.length) return 0;
@@ -63,6 +76,7 @@ export const retrieveRelevantChunks = async (queryText, topK = 5) => {
           filename: chunk.filename,
           pageNumber: chunk.pageNumber,
           chunkIndex: chunk.chunkIndex,
+          documentId: chunk.documentId,
           score
         };
       })

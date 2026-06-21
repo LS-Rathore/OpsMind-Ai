@@ -32,3 +32,8 @@ export const reindexDocument = async (documentId) => {
   const response = await api.post(`/documents/${documentId}/reindex`);
   return response.data;
 };
+
+export const toggleVisibility = async (documentId, visibility) => {
+  const response = await api.patch(`/documents/${documentId}/visibility`, { visibility });
+  return response.data;
+};

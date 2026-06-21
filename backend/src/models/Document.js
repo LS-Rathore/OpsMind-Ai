@@ -8,6 +8,7 @@ const documentSchema = new mongoose.Schema(
     filePath: { type: String },
     totalChunks: { type: Number, default: 0 },
     status: { type: String, enum: ['processing', 'indexed', 'failed'], default: 'processing' },
+    visibility: { type: String, enum: ['public', 'private'], default: 'private' },
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }

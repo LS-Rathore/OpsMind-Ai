@@ -6,6 +6,7 @@ const DocumentList = ({ refresh }) => {
   const [documents, setDocuments] = useState([]);
   const [hoveredDelId, setHoveredDelId] = useState(null);
   const [reindexingId, setReindexingId] = useState(null);
+  const [togglingVisId, setTogglingVisId] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null, name: '' });
 
@@ -50,6 +51,21 @@ const DocumentList = ({ refresh }) => {
       setErrorMsg(err.response?.data?.error || 'Failed to reindex document');
     } finally {
       setReindexingId(null);
+    }
+  };
+
+  const handleToggleVisibility = async (doc) => {
+    const newVisibility = doc.visibility === 'public' ? 'private' : 'public';
+    try {
+      setErrorMsg(null);
+      setTogglingVisId(doc._id);
+      await documentService.toggleVisibility(doc._id, newVisibility);
+      fetchDocuments();
+    } catch (err) {
+      console.error('Failed to toggle visibility:', err);
+      setErrorMsg(err.response?.data?.error || 'Failed to toggle visibility');
+    } finally {
+      setTogglingVisId(null);
     }
   };
 
@@ -145,6 +161,26 @@ const DocumentList = ({ refresh }) => {
     transition: 'all 0.2s ease',
   };
 
+  const getVisibilityBtnStyle = (visibility, isToggling) => {
+    const isPublic = visibility === 'public';
+    return {
+      backgroundColor: isPublic ? 'rgba(59, 130, 246, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+      color: isPublic ? '#3b82f6' : '#f59e0b',
+      border: `1px solid ${isPublic ? 'rgba(59, 130, 246, 0.2)' : 'rgba(245, 158, 11, 0.2)'}`,
+      padding: '6px 12px',
+      borderRadius: '6px',
+      fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+      fontSize: '12px',
+      fontWeight: '600',
+      cursor: isToggling ? 'not-allowed' : 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px',
+      transition: 'all 0.2s ease',
+      opacity: isToggling ? 0.5 : 1,
+    };
+  };
+
   const emptyStateStyle = {
     fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
     color: '#7d8187',
@@ -191,6 +227,27 @@ const DocumentList = ({ refresh }) => {
             </div>
             <div style={rightSectionStyle}>
               <span style={badgeStyle}>{doc.status === 'completed' || doc.status === 'indexed' || doc.status ? 'INDEXED' : doc.status}</span>
+              
+              <button
+                onClick={() => handleToggleVisibility(doc)}
+                disabled={togglingVisId === doc._id}
+                style={getVisibilityBtnStyle(doc.visibility, togglingVisId === doc._id)}
+                title={`Click to make ${doc.visibility === 'public' ? 'private' : 'public'}`}
+              >
+                {doc.visibility === 'public' ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                )}
+                {togglingVisId === doc._id ? 'Updating...' : (doc.visibility === 'public' ? 'Public' : 'Private')}
+              </button>
               
               <button
                 onClick={() => handleReindex(doc._id)}

@@ -42,12 +42,15 @@ router.post('/upload', verifyToken, upload.single('pdf'), async (req, res) => {
     const filePath = path.join(UPLOADS_DIR, filename);
     fs.writeFileSync(filePath, file.buffer);
 
+    const docVisibility = req.user.role === 'admin' ? 'public' : 'private';
+
     const doc = await Document.create({
       filename,
       originalName: file.originalname,
       fileSize: file.size,
       filePath: filePath,
       uploadedBy: req.user.id,
+      visibility: docVisibility,
       status: 'processing',
     });
 
@@ -61,6 +64,8 @@ router.post('/upload', verifyToken, upload.single('pdf'), async (req, res) => {
       chunkIndex: chunk.chunkIndex,
       text: chunk.text,
       embedding: chunk.embedding,
+      uploadedBy: req.user.id,
+      visibility: docVisibility,
     }));
 
     await Chunk.insertMany(chunkDocs);
@@ -91,7 +96,17 @@ router.post('/upload', verifyToken, upload.single('pdf'), async (req, res) => {
 
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const documents = await Document.find()
+    let filter = {};
+    if (req.user.role !== 'admin') {
+      // Regular users see public docs + their own private docs
+      filter = {
+        $or: [
+          { visibility: 'public' },
+          { uploadedBy: req.user.id },
+        ],
+      };
+    }
+    const documents = await Document.find(filter)
       .sort({ createdAt: -1 })
       .populate('uploadedBy', 'name email');
     res.json(documents);
@@ -152,6 +167,8 @@ router.post('/:documentId/reindex', verifyToken, requireAdmin, async (req, res) 
       chunkIndex: chunk.chunkIndex,
       text: chunk.text,
       embedding: chunk.embedding,
+      uploadedBy: doc.uploadedBy,
+      visibility: doc.visibility || 'public',
     }));
 
     await Chunk.insertMany(chunkDocs);
@@ -208,6 +225,41 @@ router.delete('/:documentId', verifyToken, async (req, res) => {
       message: 'Document and chunks deleted',
       deletedChunks: deletedChunks.deletedCount,
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Toggle document visibility (admin only)
+router.patch('/:documentId/visibility', verifyToken, requireAdmin, async (req, res) => {
+  try {
+    const { documentId } = req.params;
+    const { visibility } = req.body;
+
+    if (!['public', 'private'].includes(visibility)) {
+      return res.status(400).json({ error: 'Visibility must be "public" or "private"' });
+    }
+
+    const doc = await Document.findById(documentId);
+    if (!doc) {
+      return res.status(404).json({ error: 'Document not found' });
+    }
+
+    doc.visibility = visibility;
+    await doc.save();
+
+    // Update all related chunks too
+    await Chunk.updateMany({ documentId }, { visibility });
+
+    await AuditLog.create({
+      userId: req.user.id,
+      action: 'document_visibility_change',
+      targetType: 'document',
+      targetId: doc._id,
+      details: { filename: doc.originalName, visibility },
+    });
+
+    res.json({ success: true, visibility: doc.visibility });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
