@@ -31,3 +31,6 @@ dist-ssr
 .env.production.local
 backend/.env
 backend/uploads/
+
+
+LEARNING_JOURNAL.md
