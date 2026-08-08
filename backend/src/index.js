@@ -10,8 +10,22 @@ import adminRoutes from './routes/admin.routes.js';
 
 const app = express();
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+].filter(Boolean);
+
 app.use(cors({
-  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'http://localhost:5174'],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
 

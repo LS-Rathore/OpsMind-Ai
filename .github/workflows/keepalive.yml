@@ -1,0 +1,34 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    # Runs every 14 minutes to prevent free hosting platforms (e.g. Render) from sleeping
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  keep-alive:
+    name: Ping Backend Health Endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Endpoint
+        run: |
+          BACKEND_URL="${{ secrets.BACKEND_URL }}"
+          if [ -z "$BACKEND_URL" ]; then
+            echo "::warning::BACKEND_URL secret is not defined in GitHub Repository Secrets."
+            echo "Please set BACKEND_URL in your repo: Settings -> Secrets and variables -> Actions"
+            exit 0
+          fi
+          
+          # Clean trailing slash if present
+          BACKEND_URL="${BACKEND_URL%/}"
+          
+          echo "Pinging ${BACKEND_URL}/health ..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${BACKEND_URL}/health")
+          echo "Response HTTP Status: ${HTTP_STATUS}"
+          
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "✓ Backend is active and responded successfully."
+          else
+            echo "⚠️ Warning: Backend returned status code ${HTTP_STATUS}"
+          fi
