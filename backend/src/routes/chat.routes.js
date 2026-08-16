@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import Conversation from '../models/Conversation.js';
 import { retrieveRelevantChunks } from '../services/retriever.js';
-import { streamChatResponse } from '../services/llmService.js';
+import { streamChatResponse, streamGeneralResponse } from '../services/llmService.js';
+import { classifyQuery } from '../services/queryClassifier.js';
+import { gradeAndFilterChunks } from '../services/relevanceGrader.js';
+import { streamWebSearchResponse } from '../services/webSearchService.js';
 import { verifyToken } from '../middleware/auth.js';
 
 const router = Router();
@@ -15,7 +18,9 @@ router.post('/', verifyToken, async (req, res) => {
     res.setHeader('Connection', 'keep-alive');
     res.flushHeaders();
 
-    const chunks = await retrieveRelevantChunks(query, 5, req.user.id);
+    // --- Query Classification: route to "general", "index", or "search" ---
+    const route = await classifyQuery(query);
+    console.log(`[QueryRouter] route="${route}" | query="${query}"`);
 
     let fullResponse = '';
     let sources = [];
@@ -41,7 +46,36 @@ router.post('/', verifyToken, async (req, res) => {
       return originalWrite(data);
     };
 
-    await streamChatResponse(query, chunks, res);
+    if (route === 'general') {
+      // General / conversational query — skip retrieval, respond directly
+      await streamGeneralResponse(query, res);
+    } else if (route === 'search') {
+      // Search query — skip retrieval, perform live web search
+      console.log(`[QueryRouter] Direct web search for query: "${query}"`);
+      await streamWebSearchResponse(query, res);
+    } else {
+      // Index query — full RAG pipeline: retrieve + grade + generate
+      const rawChunks = await retrieveRelevantChunks(query, 5, req.user.id);
+
+      // --- Relevance Grading: filter irrelevant chunks, retry with rewrite if needed ---
+      const { chunks: relevantChunks, noRelevantContent, rewrittenQuery } = await gradeAndFilterChunks(
+        query, rawChunks, retrieveRelevantChunks, 5, req.user.id
+      );
+
+      if (rewrittenQuery) {
+        console.log(`[QueryRouter] Query was rewritten: "${query}" → "${rewrittenQuery}"`);
+      }
+
+      if (noRelevantContent) {
+        // No relevant content in indexed docs even after rewrite — fallback to web search
+        console.log(`[QueryRouter] No relevant indexed content — falling back to web search`);
+        await streamWebSearchResponse(query, res);
+      } else {
+        // Proceed with generation using only the relevant chunks
+        console.log(`[QueryRouter] Generating from ${relevantChunks.length} relevant chunks`);
+        await streamChatResponse(query, relevantChunks, res);
+      }
+    }
 
     res.write = originalWrite;
 
