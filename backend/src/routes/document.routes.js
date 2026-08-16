@@ -39,7 +39,7 @@ const upload = multer({
   },
 });
 
-router.post('/upload', verifyToken, upload.single('document'), async (req, res) => {
+router.post('/upload', verifyToken, upload.single('pdf'), async (req, res) => {
   try {
     const file = req.file;
     const filename = `${uuidv4()}-${file.originalname}`;
