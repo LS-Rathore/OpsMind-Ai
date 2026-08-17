@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
@@ -40,6 +41,37 @@ app.use('/api/admin', adminRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date(), service: 'OpsMind AI' });
+});
+
+// MongoDB-specific health check — used by the keep-alive GitHub Action
+app.get('/health/db', async (req, res) => {
+  try {
+    const dbState = mongoose.connection.readyState;
+    const stateMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+
+    if (dbState === 1) {
+      await mongoose.connection.db.admin().ping();
+      res.json({
+        status: 'ok',
+        database: 'connected',
+        timestamp: new Date(),
+        service: 'OpsMind AI — MongoDB',
+      });
+    } else {
+      res.status(503).json({
+        status: 'degraded',
+        database: stateMap[dbState] || 'unknown',
+        timestamp: new Date(),
+      });
+    }
+  } catch (error) {
+    res.status(503).json({
+      status: 'error',
+      database: 'unreachable',
+      error: error.message,
+      timestamp: new Date(),
+    });
+  }
 });
 
 app.use((err, req, res, next) => {
