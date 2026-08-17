@@ -29,6 +29,10 @@ jobs:
     name: Ping Services
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    env:
+      BACKEND_URL: ${{ secrets.BACKEND_URL }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+      ADMIN_URL: ${{ secrets.ADMIN_URL }}
 
     steps:
       # ── 1. Ping Backend + MongoDB ──────────────────────────────────────
@@ -36,7 +40,7 @@ jobs:
         run: |
           echo "🔔 Pinging backend at $(date -u '+%Y-%m-%d %H:%M:%S UTC')..."
           RESPONSE=$(curl -sf --max-time 30 \
-            "${{ secrets.BACKEND_URL }}/health" 2>&1) && {
+            "${BACKEND_URL}/health" 2>&1) && {
             echo "✅ Backend is alive!"
             echo "$RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE"
           } || {
@@ -50,7 +54,7 @@ jobs:
         run: |
           echo "🔔 Checking MongoDB connectivity..."
           RESPONSE=$(curl -sf --max-time 30 \
-            "${{ secrets.BACKEND_URL }}/health/db" 2>&1) && {
+            "${BACKEND_URL}/health/db" 2>&1) && {
             echo "✅ MongoDB is reachable!"
             echo "$RESPONSE" | python3 -m json.tool 2>/dev/null || echo "$RESPONSE"
           } || {
@@ -60,11 +64,11 @@ jobs:
 
       # ── 3. Ping Frontend (if URL is configured) ───────────────────────
       - name: 🖥️ Ping User Frontend
-        if: ${{ secrets.FRONTEND_URL != '' }}
+        if: env.FRONTEND_URL != ''
         run: |
           echo "🔔 Pinging frontend..."
           curl -sf --max-time 30 -o /dev/null \
-            "${{ secrets.FRONTEND_URL }}" && {
+            "${FRONTEND_URL}" && {
             echo "✅ Frontend is alive!"
           } || {
             echo "⚠️ Frontend ping failed."
@@ -72,11 +76,11 @@ jobs:
 
       # ── 4. Ping Admin Frontend (if URL is configured) ─────────────────
       - name: 🛡️ Ping Admin Frontend
-        if: ${{ secrets.ADMIN_URL != '' }}
+        if: env.ADMIN_URL != ''
         run: |
           echo "🔔 Pinging admin frontend..."
           curl -sf --max-time 30 -o /dev/null \
-            "${{ secrets.ADMIN_URL }}" && {
+            "${ADMIN_URL}" && {
             echo "✅ Admin frontend is alive!"
           } || {
             echo "⚠️ Admin frontend ping failed."
